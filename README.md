@@ -5,7 +5,7 @@ Il offre une alternative pratique et efficace aux agendas papier, aux calendrier
 
 Agenda                     |  Ajout de devoirs         |  Prise de notes
 :-------------------------:|:-------------------------:|:-------------------------:
-![screen_1](https://github.com/johan-perso/agendapp/assets/41506568/42ff288e-e16b-4b71-81f9-7ef4974dc3f8)  |  ![screen_2](https://github.com/johan-perso/agendapp/assets/41506568/09ea3d2f-69ca-46ef-8b22-7dce9e9fcfeb) | ![screen_4](https://github.com/johan-perso/agendapp/assets/41506568/d4ca75df-db15-46a9-b3b7-83cd0767df49)
+![Agenda](https://github.com/johan-perso/agendapp/assets/41506568/12826aae-18d3-473d-ae95-39656e8171cd)  |  ![Ajout de devoirs](https://github.com/johan-perso/agendapp/assets/41506568/12b19067-32b3-421d-ac3b-2b4c15f6e410) | ![Prise de notes](https://github.com/johan-perso/agendapp/assets/41506568/a69931a3-7fc1-4683-a7ed-491658ec322e)
 
 ## Installation
 
