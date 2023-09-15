@@ -1,11 +1,11 @@
 # Agendapp
 
-Un des meilleurs logiciels pour simplifier la gestion de votre agenda scolaire, et pour faciliter la prise de notes en cours.
-
+Un des meilleurs logiciels pour simplifier la gestion de votre agenda scolaire, et pour faciliter la prise de notes en cours.  
 Il offre une alternative pratique et efficace aux agendas papier, aux calendriers classiques, aux logiciels de prise de notes comme Word ou OneNote et aux logiciels de gestion de tâches comme Todoist ou Trello.
 
-![Capture d'écran](https://raw.githubusercontent.com/johan-perso/agendapp/master/README.png)
-<!-- TODO: on verra pour mettre la bonne image plus tard -->
+Agenda                     |  Ajout de devoirs         |  Prise de notes
+:-------------------------:|:-------------------------:|:-------------------------:
+![screen_1](https://github.com/johan-perso/agendapp/assets/41506568/42ff288e-e16b-4b71-81f9-7ef4974dc3f8)  |  ![screen_2](https://github.com/johan-perso/agendapp/assets/41506568/09ea3d2f-69ca-46ef-8b22-7dce9e9fcfeb) | ![screen_4](https://github.com/johan-perso/agendapp/assets/41506568/d4ca75df-db15-46a9-b3b7-83cd0767df49)
 
 ## Installation
 
