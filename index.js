@@ -114,7 +114,7 @@ if(!gotTheLock){
 	app.on("second-instance", () => {
 		if(window){
 			console.log("Already running, focusing...")
-			showWindow()
+			setTimeout(() => showWindow(), 400)
 		}
 	})
 }
@@ -193,6 +193,7 @@ async function main(){
 
 	// Quand on perd le focus, on masque la fenêtre
 	window.on("blur", () => {
+		if(ready) console.log("Window lost focus, hiding...")
 		if(ready) window.hide()
 	})
 
