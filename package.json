@@ -23,6 +23,7 @@
 		"electron-context-menu": "^3.6.1",
 		"electron-store": "^8.1.0",
 		"electron-traywindow-positioner": "^1.2.0",
-		"mica-electron": "^1.4.9"
+		"mica-electron": "^1.4.9",
+		"node-fetch": "^2.6.7"
 	}
 }

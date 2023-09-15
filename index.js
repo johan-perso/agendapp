@@ -1,7 +1,8 @@
 // Importer des librairies
-const { app, BrowserWindow, ipcMain, dialog, Menu, Tray, shell, globalShortcut } = require("electron")
+const { app, BrowserWindow, ipcMain, dialog, Menu, Tray, shell, globalShortcut, Notification } = require("electron")
 const positioner = require("electron-traywindow-positioner")
 const { MicaBrowserWindow } = require("mica-electron")
+const fetch = require("node-fetch")
 const { join } = require("path")
 
 // Menu contextuel
@@ -206,6 +207,41 @@ async function main(){
 	setTimeout(() => {
 		ready = true
 	}, 700)
+
+	// Quand l'app est affichée
+	var hasAppShowedOnce = false
+	window.on("show", async () => {
+		if(!hasAppShowedOnce){
+			// On modifie la variable et on log un truc
+			hasAppShowedOnce = true
+			console.log("Checking updates...")
+
+			// On vérifie les mises à jour
+			var latestPackageJson = await fetch("https://raw.githubusercontent.com/johan-perso/agendapp/master/package.json").then(res => res.text())
+			try {
+				latestPackageJson = JSON.parse(latestPackageJson)
+				if(latestPackageJson.version != app.getVersion()){
+					// On log
+					console.log(`Update available! We got ${app.getVersion()} and the latest is ${latestPackageJson.version}.`)
+
+					// Créer une notification
+					var notification = new Notification({
+						title: "Mise à jour disponible",
+						body: `Vous avez la version ${app.getVersion()} et la dernière est ${latestPackageJson.version}. Cliquez ici pour mettre à jour.`,
+						icon: join(__dirname, "src/icons/icon.png")
+					})
+
+					// Quand on clique sur la notification
+					notification.on("click", () => {
+						shell.openExternal("https://github.com/johan-perso/agendapp/releases/latest")
+					})
+
+					// On affiche la notification
+					notification.show()
+				} else console.log("No updates available.")
+			} catch(err){ console.log("Failed to check updates", err) }
+		}
+	})
 
 	// IPC
 	ipcMain.on("hide", () => { // masquer la fenêtre
