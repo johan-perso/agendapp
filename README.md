@@ -11,7 +11,7 @@ Agenda                     |  Ajout de devoirs         |  Prise de notes
 
 > **Note :** Agendapp n'est disponible que pour Windows 10/11 à l'heure actuelle.
 
-* Téléchargez le fichier `Agendapp.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases) de ce dépôt.
+* Téléchargez le fichier `Agendapp.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
 * Décompressez le fichier ZIP puis exécutez le fichier `Agendapp.exe` pour démarrer l'application.
 * Vous pouvez créer un raccourci vers `Agendapp.exe` pour lancer l'application plus facilement.
 
