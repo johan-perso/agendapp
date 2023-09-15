@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Propriétés -->
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<!-- Script, CSS -->
+	<script src="js/main.js" async></script>
+	<link href="style.css" rel="stylesheet">
+</head>
+<body class="w-screen p-3">
+	<!-- Barre de navigation -->
+	<div class="ml-2 mt-2 flex">
+		<!-- Onglets -->
+		<div class="rounded-md boxshadow w-fit bg-[#fcfcfc] dark:bg-[#343434] border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
+			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Agenda</button>
+			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Prise de notes</button>
+		</div>
+
+		<!-- Bouton réglages de l'autre côté -->
+		<div class="ml-auto mr-1.5 flex">
+			<button class="duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#393939] px-2 rounded-md" onclick="changeTab('settings')">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="fill-current dark:text-[#F5F5F5]">
+					<path fill="currentColor" d="M12.012 2.25c.734.008 1.465.093 2.182.253a.75.75 0 0 1 .582.649l.17 1.527a1.384 1.384 0 0 0 1.927 1.116l1.401-.615a.75.75 0 0 1 .85.174 9.793 9.793 0 0 1 2.204 3.792.75.75 0 0 1-.271.825l-1.242.916a1.38 1.38 0 0 0 0 2.226l1.243.915a.75.75 0 0 1 .272.826 9.798 9.798 0 0 1-2.204 3.792.75.75 0 0 1-.848.175l-1.407-.617a1.379 1.379 0 0 0-1.926 1.114l-.169 1.526a.75.75 0 0 1-.572.647 9.518 9.518 0 0 1-4.406 0 .75.75 0 0 1-.572-.647l-.168-1.524a1.382 1.382 0 0 0-1.926-1.11l-1.406.616a.75.75 0 0 1-.849-.175 9.799 9.799 0 0 1-2.204-3.796.75.75 0 0 1 .272-.826l1.243-.916a1.38 1.38 0 0 0 0-2.226l-1.243-.914a.75.75 0 0 1-.271-.826 9.793 9.793 0 0 1 2.204-3.792.75.75 0 0 1 .85-.174l1.4.615a1.387 1.387 0 0 0 1.93-1.118l.17-1.526a.75.75 0 0 1 .583-.65c.717-.159 1.45-.243 2.201-.252ZM12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Z"/>
+				</svg>
+			</button>
+		</div>
+	</div>
+
+	<!-- Liste des réglages -->
+	<div id="settings" class="px-2 ml-1 mr-1 mt-5 space-y-3">
+		<div class="flex">
+			<div class="mr-2">
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Ouverture au démarrage</h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">L'application Agendapp sera ouverte en arrière plan au démarrage. L'app doit être redémarré après modif.</p>
+			</div>
+			<div class="ml-auto flex items-center">
+				<svg settings-name="openOnStartup" onclick="changeSetting(this)" class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 28 28" fill="none"><path fill="currentColor" d="M19.833 8.167a5.833 5.833 0 1 1 0 11.666H8.167a5.833 5.833 0 1 1 0-11.666h11.666Zm-11.375 8.75a2.916 2.916 0 1 0 0-5.833 2.916 2.916 0 0 0 0 5.833Z"/></svg>
+			</div>
+		</div>
+
+		<div class="flex">
+			<div class="mr-2">
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Délai d'annulation des devoirs</h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Vous aurez 4 secondes après avoir coché un devoir pour le décocher</p>
+			</div>
+			<div class="ml-auto flex items-center">
+				<svg settings-name="waitBeforeDeleteHomeworks" onclick="changeSetting(this)" class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 28 28" fill="none"><path fill="currentColor" d="M19.833 8.167a5.833 5.833 0 1 1 0 11.666H8.167a5.833 5.833 0 1 1 0-11.666h11.666Zm-11.375 8.75a2.916 2.916 0 1 0 0-5.833 2.916 2.916 0 0 0 0 5.833Z"/></svg>
+			</div>
+		</div>
+
+		<hr class="border-[#464646] dark:border-[#e8e8e8] border-[0.5px]">
+
+		<div>
+			<div>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Onglet par défaut</h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">L'onglet qui s'ouvrira par défaut au démarrage de l'application</p>
+			</div>
+			<div class="ml-auto flex items-center">
+				<select settings-name="defaultTab" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+					<option>Agenda</option>
+					<option>Prise de notes</option>
+				</select>
+			</div>
+		</div>
+
+		<div>
+			<div>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Chemin par défaut</h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Chemin par défaut lors de l'attachement d'un fichier via le raccourci CTRL+O</p>
+			</div>
+			<div class="ml-auto flex items-center">
+				<input settings-name="defaultOpenPath" onchange="changeSetting(this)" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+			</div>
+		</div>
+
+		<hr class="border-[#464646] dark:border-[#e8e8e8] border-[0.5px]">
+
+		<div>
+			<div>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Liste des matières</h3>
+			</div>
+			<div class="ml-auto" settings-name="matieres"></div>
+		</div>
+
+		<p class="mt-2 text-sm text-gray-600 dark:text-gray-200 text-center">Développé par <a class="underline" onclick="electronIpc.send('showmysite')">Johan</a> • <button class="underline" onclick="electronIpc.send('open-config')">Ouvrir le fichier JSON</button> • <button class="underline" onclick="electronIpc.send('show-about')">Afficher les infos</button></p>
+	</div>
+</body>
+</html>

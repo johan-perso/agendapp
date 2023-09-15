@@ -1,0 +1,28 @@
+{
+	"private": true,
+	"name": "agendapp",
+	"productName": "Agendapp",
+	"description": "Un agenda et un outil de prise de notes intégrés dans votre barre des tâches",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"start": "electron .",
+		"build_tailwindcss": "npx tailwindcss -i ./src/preTailwind.css -o ./src/style.css",
+		"watch_tailwindcss": "npx tailwindcss -i ./src/preTailwind.css -o ./src/style.css --watch",
+		"build-exe": "electron-packager . --platform=win32 --arch=x64 --icon=src/icons/icon.ico --out=release-builds --overwrite"
+	},
+	"author": "Johan Stickman",
+	"license": "MIT",
+	"devDependencies": {
+		"electron": "^20.0.0",
+		"electron-packager": "^17.1.2",
+		"eslint": "^8.48.0",
+		"tailwindcss": "^3.3.1"
+	},
+	"dependencies": {
+		"electron-context-menu": "^3.6.1",
+		"electron-store": "^8.1.0",
+		"electron-traywindow-positioner": "^1.2.0",
+		"mica-electron": "^1.4.9"
+	}
+}

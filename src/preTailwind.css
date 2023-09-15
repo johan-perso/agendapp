@@ -1,0 +1,137 @@
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ombre */
+.boxshadow {
+	box-shadow: 1px 1px 5px 0px var(--boxShadowColor);
+}
+
+/* Changer le curseur */
+button, a {
+	cursor: default !important;
+}
+
+/* Changer le line height des placeholder */
+::-webkit-input-placeholder { line-height: 1.35rem }
+
+/* Couleurs en fonction du thème */
+/* Thème claire */
+:root {
+	--textColor: #393939;
+	--scrollBar-color: #A0A0A0;
+	--scrollBar-color-hover: #C0C0C0;
+	--scrollBar-track-color: #D0D0D0;
+	--scrollBar-thumb-hover: #777777; /* (j'ai fait 0 efforts sur les couleurs de la scrollbar HAHAHA j'ai utilisé Copilot ça passe mm si ça rend pas trop bien) */
+	--boxShadowColor: rgba(255, 255, 255, 0.20);
+	--background: rgb(246, 246, 246, 0.825);
+}
+/* Thème sombre */
+@media (prefers-color-scheme: dark) {
+	:root {
+		--textColor: #F5F5F5;
+		--scrollBar-color: #464646;
+		--scrollBar-color-hover: #202020;
+		--scrollBar-track-color: #282828;
+		--scrollBar-thumb-hover: #5e5e5e;
+		--boxShadowColor: rgba(0, 0, 0, 0.20);
+		--background: rgb(41, 41, 41, 0.875);
+	}
+}
+
+/* Couleur d'arrière plan */
+html {
+	background-color: var(--background);
+}
+
+/* Modifications de base sur toute la page */
+body {
+	/* Empêcher de sélectionner du texte */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	/* Masquer la scrollbar X */
+	overflow-x: hidden;
+
+	/* Textes */
+	color: var(--textColor);
+	font-family: Segoe UI;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 600;
+	line-height: normal;
+}
+
+/* Scrollbar */
+/* textarea: */
+textarea::-webkit-scrollbar {
+	background-color: var(--scrollBar-color);
+	width: 6px;
+	height: 6px;
+}
+textarea::-webkit-scrollbar-track {
+	background-color: var(--scrollBar-color);
+	box-shadow: 0 0 3px var(--scrollBar-track-color);
+	border-radius: 10px;
+}
+textarea::-webkit-scrollbar-thumb {
+	background-color: var(--scrollBar-track-color);
+	border-radius: 10px;
+}
+textarea::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollBar-color-hover);
+}
+/* normal: */
+::-webkit-scrollbar {
+	background-color: var(--scrollBar-track-color);
+	width: 6px;
+	height: 6px;
+}
+::-webkit-scrollbar-track {
+	background-color: var(--scrollBar-track-color);
+	box-shadow: 0 0 3px var(--scrollBar-color);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+	background-color: var(--scrollBar-color);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: var(--scrollBar-thumb-hover);
+}
+
+/* poppins-regular - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 400;
+	src: url('fonts/poppins-v20-latin-regular.woff2') format('woff2');
+}
+/* poppins-500 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 500;
+	src: url('fonts/poppins-v20-latin-500.woff2') format('woff2');
+}
+/* poppins-600 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 600;
+	src: url('fonts/poppins-v20-latin-600.woff2') format('woff2');
+}
+/* poppins-700 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Poppins';
+	font-style: normal;
+	font-weight: 700;
+	src: url('fonts/poppins-v20-latin-700.woff2') format('woff2');
+}
