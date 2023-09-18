@@ -13,7 +13,7 @@
 	<!-- Barre de navigation -->
 	<div class="ml-2 mt-2 flex">
 		<!-- Onglets -->
-		<div class="rounded-md boxshadow w-fit bg-[#fcfcfc] dark:bg-[#343434] border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
+		<div class="rounded-md boxshadow w-fit bg-fcfcfc dark-bg-343434 border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
 			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Agenda</button>
 			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Prise de notes</button>
 		</div>
@@ -58,7 +58,7 @@
 				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">L'onglet qui s'ouvrira par défaut au démarrage de l'application</p>
 			</div>
 			<div class="ml-auto flex items-center">
-				<select settings-name="defaultTab" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+				<select settings-name="defaultTab" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
 					<option>Agenda</option>
 					<option>Prise de notes</option>
 				</select>
@@ -71,7 +71,7 @@
 				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Chemin par défaut lors de l'attachement d'un fichier via le raccourci CTRL+O</p>
 			</div>
 			<div class="ml-auto flex items-center">
-				<input settings-name="defaultOpenPath" onchange="changeSetting(this)" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+				<input settings-name="defaultOpenPath" onchange="changeSetting(this)" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
 			</div>
 		</div>
 

@@ -686,11 +686,6 @@ video {
   border-color: rgb(232 232 232 / var(--tw-border-opacity));
 }
 
-.bg-\[\#fcfcfc\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(252 252 252 / var(--tw-bg-opacity));
-}
-
 .fill-current {
   fill: currentColor;
 }
@@ -835,7 +830,7 @@ button, a {
   --scrollBar-thumb-hover: #777777;
   /* (j'ai fait 0 efforts sur les couleurs de la scrollbar HAHAHA j'ai utilisé Copilot ça passe mm si ça rend pas trop bien) */
   --boxShadowColor: rgba(255, 255, 255, 0.20);
-  --background: rgb(246, 246, 246, 0.825);
+  --background: rgb(246, 246, 246, 0.835);
 }
 
 /* Thème sombre */
@@ -848,8 +843,31 @@ button, a {
     --scrollBar-track-color: #282828;
     --scrollBar-thumb-hover: #5e5e5e;
     --boxShadowColor: rgba(0, 0, 0, 0.20);
-    --background: rgb(41, 41, 41, 0.875);
+    --background: rgb(41, 41, 41, 0.885);
   }
+}
+
+/* Couleurs avec transparence */
+
+.bg-fcfcfc {
+  background: rgb(252, 252, 252, 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-bg-343434 {
+    background: rgb(52, 52, 52, 0.7);
+  }
+
+  .dark-bg-363636 {
+    background: rgb(54, 54, 54, 0.7);
+  }
+}
+
+/* Mettre la bonne couleur pour les options des selects */
+
+option {
+  color: var(--textColor);
+  background-color: var(--background);
 }
 
 /* Couleur d'arrière plan */
@@ -1003,16 +1021,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   .dark\:border-\[\#e8e8e8\] {
     --tw-border-opacity: 1;
     border-color: rgb(232 232 232 / var(--tw-border-opacity));
-  }
-
-  .dark\:bg-\[\#343434\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(52 52 52 / var(--tw-bg-opacity));
-  }
-
-  .dark\:bg-\[\#363636\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(54 54 54 / var(--tw-bg-opacity));
   }
 
   .dark\:text-\[\#EFEFEF\] {

@@ -25,7 +25,7 @@ button, a {
 	--scrollBar-track-color: #D0D0D0;
 	--scrollBar-thumb-hover: #777777; /* (j'ai fait 0 efforts sur les couleurs de la scrollbar HAHAHA j'ai utilisé Copilot ça passe mm si ça rend pas trop bien) */
 	--boxShadowColor: rgba(255, 255, 255, 0.20);
-	--background: rgb(246, 246, 246, 0.825);
+	--background: rgb(246, 246, 246, 0.835);
 }
 /* Thème sombre */
 @media (prefers-color-scheme: dark) {
@@ -36,8 +36,27 @@ button, a {
 		--scrollBar-track-color: #282828;
 		--scrollBar-thumb-hover: #5e5e5e;
 		--boxShadowColor: rgba(0, 0, 0, 0.20);
-		--background: rgb(41, 41, 41, 0.875);
+		--background: rgb(41, 41, 41, 0.885);
 	}
+}
+
+/* Couleurs avec transparence */
+.bg-fcfcfc {
+	background: rgb(252, 252, 252, 0.7);
+}
+@media (prefers-color-scheme: dark) {
+	.dark-bg-343434 {
+		background: rgb(52, 52, 52, 0.7);
+	}
+	.dark-bg-363636 {
+		background: rgb(54, 54, 54, 0.7);
+	}
+}
+
+/* Mettre la bonne couleur pour les options des selects */
+option {
+	color: var(--textColor);
+	background-color: var(--background);
 }
 
 /* Couleur d'arrière plan */

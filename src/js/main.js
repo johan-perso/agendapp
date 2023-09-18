@@ -355,7 +355,7 @@ function parseNotes(notes){
 
 	// On ajoute chaque note
 	for(const note of notes){
-		html += `<div class="flex mt-2 px-3 py-4 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
+		html += `<div class="flex mt-2 px-3 py-4 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
 		<div>
 			<h3 class="flex place-items-center font-[Poppins] font-normal select-text">
 				<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
@@ -408,6 +408,9 @@ async function checkCheckbox(button){ // eslint-disable-line
 
 // Ajouter tous les réglages sur la page
 function addSettingsToPage(){
+	// Vérifier qu'on est sur les réglages
+	if(!document.getElementById("settings")) return
+
 	// Définir les réglages toggle
 	if(settings?.openOnStartup){
 		document.querySelector("[settings-name=\"openOnStartup\"]").setAttribute("checked", "true")
@@ -439,11 +442,11 @@ function addSettingsToPage(){
 		matieresContainer.insertAdjacentHTML("beforeend", `
 		<div data-index="${index}" class="${index == 0 ? "mb-4" : "my-4"}">
 			<div class="flex items-center space-x-2 mt-2">
-				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom minimaliste">
-				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom en majuscule">
+				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom minimaliste">
+				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom en majuscule">
 			</div>
-			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Couleur au format hexadécimale">
-			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md bg-[#fcfcfc] dark:bg-[#363636] border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? "Ajouter" : "Mettre à jour"}</button>
+			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Couleur au format hexadécimale">
+			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? "Ajouter" : "Mettre à jour"}</button>
 		</div>
 		${index != (settings?.matieres.length - 1) ? "<hr class=\"border-[#464646] dark:border-[#e8e8e8] border-[0.5px]\">" : ""}`)
 
