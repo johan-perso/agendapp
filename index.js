@@ -157,7 +157,7 @@ async function main(){
 
 		// On positionne
 		var position = tray.getBounds()
-		position.y -= 7 // on baisse vite fait la position
+		position.y -= 12 // on baisse vite fait la position
 		positioner.position(window, position)
 
 		// On affiche
@@ -194,8 +194,7 @@ async function main(){
 	})
 	window.loadFile(join(__dirname, `src/${settings.defaultTab == "note" ? "note.html" : "agenda.html"}`))
 
-	// Définir un effet d'arrière plan
-	try { console.log("Applying blur effet."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // on passe en flou mais avec du CSS ça sera que très peu flou
+	// On définit la variable pour savoir si la fenêtre est prête
 	var ready = false
 
 	// Quand on perd le focus, on masque la fenêtre
@@ -217,7 +216,12 @@ async function main(){
 	// Quand l'app est affichée
 	var hasAppShowedOnce = false
 	window.on("show", async () => {
+		console.log("Window showed.")
+		// Si l'application n'a jamais été affichée
 		if(!hasAppShowedOnce){
+			// On met l'effet flou en arrière plan
+			try { console.log("Applying blur effet."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // on passe en flou mais avec du CSS ça sera que très peu flou
+
 			// On modifie la variable et on log un truc
 			hasAppShowedOnce = true
 			console.log("Checking updates...")
@@ -247,6 +251,9 @@ async function main(){
 				} else console.log("No updates available.")
 			} catch(err){ console.log("Failed to check updates", err) }
 		}
+
+		// Si l'option pour forcer l'effet de flou est activée, on le force
+		if(settings?.forceBlurEffect) try { console.log("Applying blur effet (because of forceBlurEffect)."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") }
 	})
 
 	// IPC
@@ -267,6 +274,9 @@ async function main(){
 		else if(action == "delete") event.returnValue = store.delete(data)
 		else if(action == "clear") event.returnValue = store.clear()
 		else event.returnValue = null
+
+		// On met à jour les paramètres
+		settings = store.get("settings")
 	})
 	ipcMain.on("ask-file", async (event) => { // demander un fichier
 		console.log("IPC is asking file...")

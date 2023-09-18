@@ -420,6 +420,10 @@ function addSettingsToPage(){
 		document.querySelector("[settings-name=\"waitBeforeDeleteHomeworks\"]").setAttribute("checked", "true")
 		document.querySelector("[settings-name=\"waitBeforeDeleteHomeworks\"]").innerHTML = "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>"
 	}
+	if(settings?.forceBlurEffect){
+		document.querySelector("[settings-name=\"forceBlurEffect\"]").setAttribute("checked", "true")
+		document.querySelector("[settings-name=\"forceBlurEffect\"]").innerHTML = "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>"
+	}
 
 	// Définir les select
 	if(settings?.defaultTab) document.querySelector("[settings-name=\"defaultTab\"]").value = settings.defaultTab == "note" ? "Prise de notes" : "Agenda"
@@ -464,7 +468,7 @@ function changeSetting(element){ // eslint-disable-line
 	var settingName = element.getAttribute("settings-name")
 
 	// En fonction du nom
-	if(settingName == "openOnStartup" || settingName == "waitBeforeDeleteHomeworks"){
+	if(settingName == "openOnStartup" || settingName == "waitBeforeDeleteHomeworks" || settingName == "forceBlurEffect"){
 		// On change le réglage
 		settings[settingName] = !settings[settingName]
 		electronIpc.send("config", "set", `settings.${settingName}`, settings[settingName])
