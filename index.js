@@ -154,7 +154,13 @@ async function main(){
 	// Définir la fonction pour afficher la fenêtre
 	showWindow = () => {
 		console.log("Showing window...")
-		positioner.position(window, tray.getBounds())
+
+		// On positionne
+		var position = tray.getBounds()
+		position.y -= 7 // on baisse vite fait la position
+		positioner.position(window, position)
+
+		// On affiche
 		window.show()
 	}
 
