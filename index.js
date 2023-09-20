@@ -76,7 +76,8 @@ if(!store.has("settings")) store.set("settings", {
 	defaultOpenPath: app.getPath("documents"),
 	openOnStartup: true,
 	defaultTab: "agenda",
-	waitBeforeDeleteHomeworks: false
+	waitBeforeDeleteHomeworks: false,
+	forceBlurEffect: false
 })
 
 // Paramètres

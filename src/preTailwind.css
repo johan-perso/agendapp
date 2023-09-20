@@ -40,6 +40,13 @@ button, a {
 	}
 }
 
+/* Font smoothing, et ombre */
+p, button, h1, h2, h3, a, option, input, textarea {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-shadow: 1px 1px 1px var(--boxShadowColor);
+}
+
 /* Couleurs avec transparence */
 .bg-fcfcfc {
 	background: rgb(252, 252, 252, 0.7);
