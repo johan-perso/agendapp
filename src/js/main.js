@@ -245,9 +245,6 @@ function addNote(){
 	if(file && content) content = content.replace(`\n\n${decodeURIComponent(file)}`, "")
 	if(content) content = content.trim()
 
-	// Si le premier caractère dans le contenu est une lettre de l'alphabet, on met une majuscule
-	if(content && content[0].match(/[a-z]/i)) content = content[0].toUpperCase() + content.substring(1)
-
 	// On envoie les données
 	var newNote = electronIpc.sendSync("add-note", matiere, content, file)
 	parseNotes(newNote)
