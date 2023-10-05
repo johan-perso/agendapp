@@ -40,6 +40,13 @@ button, a {
 	}
 }
 
+/* Sauts de ligne plus importants pour les <br> */
+br {
+	margin-bottom: 18px;
+	display: block;
+	content: "";
+}
+
 /* Font smoothing, et ombre */
 p, button, h1, h2, h3, a, option, input, textarea {
 	-webkit-font-smoothing: antialiased;
