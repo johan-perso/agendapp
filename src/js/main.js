@@ -35,14 +35,23 @@ if(document.getElementById("notes")){
 // Recevoir des messages du preload.js
 window.addEventListener("message", (event) => {
 	// Quand on obtient le focus
-	if(event.data == "focus"){
-		document.querySelector("[autofocus]")?.focus()
-		window.scrollTo(0, 0)
-	}
+	if(event.data == "focus") document.querySelector("[autofocus]")?.focus({ preventScroll: true })
 
 	// Actions via menu contextuel
 	if(event.data.type == "contextmenu") formatInput(event.data.arg)
 })
+
+// Fonction pour surligner les mots dans un texte à partir de ceux trouvés dans un texte
+function highlightText(text, words){
+	// On enlève les espaces des mots
+	words = words.map(word => word.trim()).filter(word => word.length)
+
+	// On surligne
+	if(words.length) text = text.replaceAll(new RegExp(`(${words.join("|")})`, "gi"), "<span class=\"bg-[#e8e8e8] dark:bg-[#292929] rounded-md px-1 py-0.5\">$1</span>")
+
+	// On retourne le texte
+	return text
+}
 
 // Fonction pour formatter l'input focusé
 function formatInput(action){
@@ -68,7 +77,7 @@ function parseMarkdown(text){
 	text = text.replaceAll(/\*\*(.*?)\*\*/g, "<span class=\"font-bold\">$1</span>") // Gras
 	text = text.replaceAll(/\*(.*?)\*/g, "<i>$1</i>") // Italique
 	text = text.replaceAll(/__(.*?)__/g, "<u>$1</u>") // Souligné
-	text = text.replace(/\n+/g, "<br>") // Sauts de lignes
+	text = text.replaceAll(/\n/g, "<br>") // Sauts de lignes
 	return text
 }
 
@@ -97,11 +106,17 @@ document.addEventListener("keydown", (event) => {
 		}
 	}
 
-	// Si on fait ctrl+enter
+	// Si on fait CTRL+Enter
 	if(event.ctrlKey && event.key == "Enter"){
 		// On ajoute, si le bouton pour le faire existe déjà
 		if(document.getElementById("input_addhomework")) addHomework()
 		else if(document.getElementById("input_addnote")) addNote()
+	}
+
+	// Si on fait CTRL+L
+	if(event.ctrlKey && event.key == "l"){
+		if(document.getElementById("input_date")) document.getElementById("input_date").focus()
+		else if(document.getElementById("input_notesearch")) document.getElementById("input_notesearch").focus()
 	}
 
 	// Si on fait CTRL+O
@@ -355,17 +370,17 @@ function parseNotes(notes){
 
 	// On ajoute chaque note
 	for(const note of notes){
-		html += `<div class="flex mt-2 px-3 py-4 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
-		<div>
+		html += `<div class="mt-2 px-3 py-1 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
+		<div class="mt-3">
 			<h3 class="flex place-items-center font-[Poppins] font-normal select-text">
 				<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
 					<circle cx="4" cy="4" r="4" fill="${escapeHtml(note?.matiere?.color) || "#767676"}"/>
 				</svg>
 				${escapeHtml(note?.matiere?.upper || note?.matiere) || "Aucune matière"}
 			</h3>
-			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(escapeHtml(note?.content) || "Aucun contenu")}</p>
+			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(highlightText(escapeHtml(note?.content), document.getElementById("input_notesearch")?.value?.split(" ") || []) || "Aucun contenu")}</p>
 		</div>
-		<div class="ml-auto px-2 grid space-y-2" data-id="${note?.id}">
+		<div class="flex space-x-1 justify-end mt-1 mb-3" data-id="${note?.id}">
 			${note?.file ? `<button onclick="electronIpc.send('open-notefile', this.parentElement.getAttribute('data-id'))" class="p-1 outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#292929] rounded-md">
 				<svg class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="none">
 					<path d="M4.16668 3.16667C3.90146 3.16667 3.64711 3.27202 3.45957 3.45956C3.27203 3.6471 3.16668 3.90145 3.16668 4.16667V11.8333C3.16668 12.0985 3.27203 12.3529 3.45957 12.5404C3.64711 12.728 3.90146 12.8333 4.16668 12.8333H11.8333C12.0986 12.8333 12.3529 12.728 12.5404 12.5404C12.728 12.3529 12.8333 12.0985 12.8333 11.8333V9.16667C12.8333 8.98986 12.9036 8.82029 13.0286 8.69526C13.1536 8.57024 13.3232 8.5 13.5 8.5C13.6768 8.5 13.8464 8.57024 13.9714 8.69526C14.0964 8.82029 14.1667 8.98986 14.1667 9.16667V11.8333C14.1667 12.4522 13.9208 13.0457 13.4833 13.4832C13.0457 13.9208 12.4522 14.1667 11.8333 14.1667H4.16668C3.54784 14.1667 2.95435 13.9208 2.51676 13.4832C2.07918 13.0457 1.83334 12.4522 1.83334 11.8333V4.16667C1.83334 3.54783 2.07918 2.95434 2.51676 2.51675C2.95435 2.07917 3.54784 1.83333 4.16668 1.83333H6.83334C7.01015 1.83333 7.17972 1.90357 7.30475 2.0286C7.42977 2.15362 7.50001 2.32319 7.50001 2.5C7.50001 2.67681 7.42977 2.84638 7.30475 2.9714C7.17972 3.09643 7.01015 3.16667 6.83334 3.16667H4.16668ZM8.50001 2.5C8.50001 2.32319 8.57025 2.15362 8.69527 2.0286C8.8203 1.90357 8.98987 1.83333 9.16668 1.83333H13.5C13.6768 1.83333 13.8464 1.90357 13.9714 2.0286C14.0964 2.15362 14.1667 2.32319 14.1667 2.5V6.83333C14.1667 7.01014 14.0964 7.17971 13.9714 7.30474C13.8464 7.42976 13.6768 7.5 13.5 7.5C13.3232 7.5 13.1536 7.42976 13.0286 7.30474C12.9036 7.17971 12.8333 7.01014 12.8333 6.83333V4.10933L9.63801 7.30467C9.57651 7.36834 9.50295 7.41913 9.42161 7.45407C9.34028 7.48901 9.2528 7.5074 9.16428 7.50817C9.07576 7.50894 8.98797 7.49207 8.90604 7.45855C8.82411 7.42503 8.74968 7.37552 8.68708 7.31293C8.62449 7.25033 8.57498 7.1759 8.54146 7.09397C8.50794 7.01204 8.49107 6.92425 8.49184 6.83573C8.49261 6.74721 8.511 6.65973 8.54594 6.5784C8.58088 6.49706 8.63167 6.4235 8.69534 6.362L11.8907 3.16667H9.16668C8.98987 3.16667 8.8203 3.09643 8.69527 2.9714C8.57025 2.84638 8.50001 2.67681 8.50001 2.5Z" fill="currentColor"/>
@@ -539,6 +554,10 @@ function roundDate(date){
 
 // Fonction pour rendre une date JS plus propre
 function formatDate(date, upFirstLetter = false){
+	// Si c'est aujourd'hui
+	if(roundDate(date) == roundDate(new Date())) return "Aujourd'hui"
+
+	// Sinon, on formatte
 	var options = { weekday: "long", day: "numeric", month: "long" }
 	if(date.getFullYear() != new Date().getFullYear()) options.year = "numeric"
 	const formatter = new Intl.DateTimeFormat("fr-FR", options)
