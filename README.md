@@ -63,6 +63,7 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 * `Ctrl/Alt + 1/&` → ouvre l'onglet "Agenda"
 * `Ctrl/Alt + 2/é` → ouvre l'onglet "Notes"
 * `Ctrl/Alt + 3/"` → ouvre l'onglet "Réglages"
+* `Ctrl + L` → focus la zone de recherche
 
 ### Hors de l'application
 
