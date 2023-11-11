@@ -56,6 +56,7 @@ contextMenu({
 
 // Configuration
 const Store = require("electron-store")
+const { platform } = require("os")
 const store = new Store()
 console.log(`Settings path: ${store.path}`)
 
@@ -142,8 +143,12 @@ function stopApp(){
 
 // Fonction pour crée une nouvelle fenêtre
 async function main(){
+	// icone tray pour macOS
+	let trayIcon;
+	(process.platform === "darwin") ? trayIcon = "src/icons/tray_darwin.png" : trayIcon = "src/icons/transparent.png"
+
 	// On crée une Tray (icône dans la barre des tâches)
-	const tray = new Tray(join(__dirname, "src/icons/transparent.png"))
+	const tray = new Tray(join(__dirname, trayIcon))
 	const trayContextMenu = Menu.buildFromTemplate([
 		{ label: "Agenda", click: () => window.loadFile(join(__dirname, "src/agenda.html")).then(() => showWindow()) },
 		{ label: "Prise de note", click: () => window.loadFile(join(__dirname, "src/note.html")).then(() => showWindow()) },
@@ -194,8 +199,8 @@ async function main(){
 		fullscreenable: false,
 		autoHideMenuBar: true,
 		frame: false,
-		titleBarStyle: "hidden",
-		show: false
+		titleBarStyle: platform() !== "darwin" && "hidden",
+		show: false,
 	})
 	window.loadFile(join(__dirname, `src/${settings.defaultTab == "note" ? "note.html" : "agenda.html"}`))
 
