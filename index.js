@@ -1,9 +1,13 @@
 // Importer des librairies
-const { app, BrowserWindow, ipcMain, dialog, Menu, Tray, shell, globalShortcut, Notification } = require("electron")
+const { app, ipcMain, dialog, Menu, Tray, shell, globalShortcut, Notification } = require("electron")
 const positioner = require("electron-traywindow-positioner")
-const { MicaBrowserWindow } = require("mica-electron")
 const fetch = require("node-fetch")
 const { join } = require("path")
+
+// Mica
+var BrowserWindow
+if(process.platform == "win32") BrowserWindow = require("mica-electron").MicaBrowserWindow
+else BrowserWindow = require("electron").BrowserWindow
 
 // Menu contextuel
 const contextMenu = require("electron-context-menu")
@@ -172,7 +176,7 @@ async function main(){
 	})
 
 	// On crée la fenêtre
-	window = new MicaBrowserWindow({
+	window = new BrowserWindow({
 		width: 342,
 		height: 478,
 		icon: join(__dirname, "src/icons/icon.png"),
