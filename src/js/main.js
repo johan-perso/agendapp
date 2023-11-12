@@ -45,9 +45,40 @@ window.addEventListener("message", (event) => {
 function highlightText(text, words){
 	// On enlève les espaces des mots
 	words = words.map(word => word.trim()).filter(word => word.length)
+	_words = words.map(word => word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase())
 
 	// On surligne
-	if(words.length) text = text.replaceAll(new RegExp(`(${words.join("|")})`, "gi"), "<span class=\"bg-[#e8e8e8] dark:bg-[#292929] rounded-md px-1 py-0.5\">$1</span>")
+	if(words.length){
+		// On prépare le texte
+		var finalText = ""
+
+		// On sépare le texte en mots (tout les espaces et sauts de lignes)
+		var textWords = text.split(/[\s\n]/g)
+
+		// On vérifie chaque mot
+		for(const word of textWords){
+			// On récupère le mot sans les accents
+			var _word = word.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
+
+			// On vérifie si le mot est dans la liste
+			if(_word.length > 1){ // min 2 caractères
+				if(_words.includes(_word)) finalText += `<mark class="rounded-md px-0.5 py-0.5">${word}</mark>`
+				else if(_words.find(_word => _word.startsWith(word))) finalText += `<mark class="rounded-md px-0.5 py-0.5">${word}</mark>`
+				else if(_words.find(_word => _word.endsWith(word))) finalText += `<mark class="rounded-md px-0.5 py-0.5">${word}</mark>`
+				else finalText += word
+			} else finalText += word // Si le mot fait moins de 2 caractères, on l'ajoute tel quel
+
+			// On ajoute un espace ou un saut de ligne
+			if(word.endsWith("\n")) finalText += "<br>"
+			else finalText += " "
+		}
+
+		// On enlève le dernier espace
+		finalText = finalText.trim()
+
+		// On retourne le texte
+		return finalText
+	}
 
 	// On retourne le texte
 	return text
@@ -84,8 +115,8 @@ function parseMarkdown(text){
 // Raccourcis clavier
 document.addEventListener("keydown", (event) => {
 	// Empêcher les raccourcis pour fermer la page
-	if(event.ctrlKey && event.key == "w") event.preventDefault()
-	if(event.ctrlKey && event.key == "q") event.preventDefault()
+	if((event.ctrlKey || event.metaKey) && event.key == "w") event.preventDefault()
+	if((event.ctrlKey || event.metaKey) && event.key == "q") event.preventDefault()
 
 	// Si on fait Enter
 	if(event.key == "Enter"){
@@ -107,20 +138,20 @@ document.addEventListener("keydown", (event) => {
 	}
 
 	// Si on fait CTRL+Enter
-	if(event.ctrlKey && event.key == "Enter"){
+	if((event.ctrlKey || event.metaKey) && event.key == "Enter"){
 		// On ajoute, si le bouton pour le faire existe déjà
 		if(document.getElementById("input_addhomework")) addHomework()
 		else if(document.getElementById("input_addnote")) addNote()
 	}
 
 	// Si on fait CTRL+L
-	if(event.ctrlKey && event.key == "l"){
+	if((event.ctrlKey || event.metaKey) && event.key == "l"){
 		if(document.getElementById("input_date")) document.getElementById("input_date").focus()
 		else if(document.getElementById("input_notesearch")) document.getElementById("input_notesearch").focus()
 	}
 
 	// Si on fait CTRL+O
-	if(event.ctrlKey && event.key == "o"){
+	if((event.ctrlKey || event.metaKey) && event.key == "o"){
 		// Si on entre le contenu
 		if(document.activeElement == document.getElementById("input_content")){
 			// On demande le fichier
@@ -138,15 +169,15 @@ document.addEventListener("keydown", (event) => {
 	}
 
 	// Si on fait CTRL+B, I ou U
-	if(event.ctrlKey && event.key == "b") formatInput("bold")
-	if(event.ctrlKey && event.key == "i") formatInput("italic")
-	if(event.ctrlKey && event.key == "u") formatInput("underline")
+	if((event.ctrlKey || event.metaKey) && event.key == "b") formatInput("bold")
+	if((event.ctrlKey || event.metaKey) && event.key == "i") formatInput("italic")
+	if((event.ctrlKey || event.metaKey) && event.key == "u") formatInput("underline")
 
 	// Changer d'onglets
 	console.log(event.key)
-	if((event.ctrlKey || event.altKey) && (event.key == "1" || event.key == "&")) changeTab("agenda")
-	if((event.ctrlKey || event.altKey) && (event.key == "2" || event.key == "é")) changeTab("note")
-	if((event.ctrlKey || event.altKey) && (event.key == "3" || event.key == "\"")) changeTab("settings")
+	if((event.ctrlKey || event.metaKey || event.altKey) && (event.key == "1" || event.key == "&")) changeTab("agenda")
+	if((event.ctrlKey || event.metaKey || event.altKey) && (event.key == "2" || event.key == "é")) changeTab("note")
+	if((event.ctrlKey || event.metaKey || event.altKey) && (event.key == "3" || event.key == "\"")) changeTab("settings")
 
 	// Masquer la fenêtre avec échap
 	if(event.key == "Escape") electronIpc.send("hide")
@@ -193,7 +224,7 @@ function addHomework(){
 	}
 
 	// On récupère les données
-	var matiere = document.getElementById("input_matiere").value || "Aucune matière"
+	var matiere = document.getElementById("input_matiere").value || "Aucun thème"
 	var date = document.getElementById("input_date").getAttribute("data-value")
 	var content = document.getElementById("input_content").value
 	var file = document.getElementById("input_content").getAttribute("data-file")
@@ -206,7 +237,7 @@ function addHomework(){
 	document.getElementById("input_content").removeAttribute("data-file")
 
 	// On utilise le bon nom pour la matière
-	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUNE MATIÈRE", color: "#767676" }
+	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUN THÈME", color: "#767676" }
 
 	// Faire une nouvelle date avec les infos de la précédente pour la rendre moins précise
 	date = roundDate(new Date(parseInt(date)))
@@ -227,7 +258,7 @@ function addHomework(){
 // Fonction pour ajouter une note
 function addNote(){
 	// On récupère les données
-	var matiere = document.getElementById("input_matiere").value || "Aucune matière"
+	var matiere = document.getElementById("input_matiere").value || "Aucun thème"
 	var content = document.getElementById("input_content").value
 	var file = document.getElementById("input_content").getAttribute("data-file")
 
@@ -239,7 +270,7 @@ function addNote(){
 	document.getElementById("input_content").removeAttribute("data-file")
 
 	// On utilise le bon nom pour la matière
-	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUNE MATIÈRE", color: "#767676" }
+	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUN THÈME", color: "#767676" }
 
 	// Dans le contenu, on enlève le fichier, et on trim
 	if(file && content) content = content.replace(`\n\n${decodeURIComponent(file)}`, "")
@@ -304,7 +335,7 @@ function parseAgenda(agenda){
 					<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
 						<circle cx="4" cy="4" r="4" fill="${escapeHtml(homework?.matiere?.color) || "#767676"}"/>
 					</svg>
-					${escapeHtml(homework?.matiere?.upper || homework?.matiere) || "Aucune matière"}
+					${escapeHtml(homework?.matiere?.upper || homework?.matiere) || "Aucun thème"}
 				</h3>
 				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-medium break-words select-text" style="max-width: ${`${document.body.clientWidth - 80}px`}">${parseMarkdown(escapeHtml(homework?.content) || "Aucun contenu")}</p>
 			</div>
@@ -352,8 +383,18 @@ function parseNotes(notes){
 
 		// Sinon, on cherche par terme
 		else {
-			var fuse = new Fuse(notes, { keys: ["content", "matiere.lower", "matiere.upper"], threshold: 0.5, distance: 200, isCaseSensitive: false, ignoreLocation: !(notes.length > 10) })
-			notes = fuse.search(query).map(result => result.item)
+			// On sépare la query en mots
+			var words = _query.split(" ").filter(word => word.length)
+
+			// On filtre
+			notes = notes.filter(note => {
+				// On récupère le contenu
+				var content = note?.content?.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replaceAll("-", " ")
+
+				// On regarde si chaque mot est dans le contenu
+				for(const word of words) if(!content.includes(word)) return false
+				return true
+			})
 		}
 	}
 
@@ -373,7 +414,7 @@ function parseNotes(notes){
 				<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
 					<circle cx="4" cy="4" r="4" fill="${escapeHtml(note?.matiere?.color) || "#767676"}"/>
 				</svg>
-				${escapeHtml(note?.matiere?.upper || note?.matiere) || "Aucune matière"}
+				${escapeHtml(note?.matiere?.upper || note?.matiere) || "Aucun thème"}
 			</h3>
 			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(highlightText(escapeHtml(note?.content), document.getElementById("input_notesearch")?.value?.split(" ") || []) || "Aucun contenu")}</p>
 		</div>
@@ -418,24 +459,32 @@ async function checkCheckbox(button){ // eslint-disable-line
 	}
 }
 
+// Configurer le démarrage auto de l'app au démarrage de l'OS
+function enableAutostart(el){ // eslint-disable-line
+	// On envoie la demande à l'IPC
+	electronIpc.send("enable-autostart")
+
+	// On change le texte
+	el.parentElement.innerText = `L'application Agendapp s'ouvre en arrière plan au démarrage. Vous pouvez gérer ce comportement dans ${platform == "win32" ? "le gestionnaire des tâches" : platform == "darwin" ? "les réglages système de ce Mac" : "les paramètres de votre OS"}.`
+}
+
 // Ajouter tous les réglages sur la page
 function addSettingsToPage(){
 	// Vérifier qu'on est sur les réglages
 	if(!document.getElementById("settings")) return
 
 	// Définir les réglages toggle
-	if(settings?.openOnStartup){
-		document.querySelector("[settings-name=\"openOnStartup\"]").setAttribute("checked", "true")
-		document.querySelector("[settings-name=\"openOnStartup\"]").innerHTML = "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>"
-	}
 	if(settings?.waitBeforeDeleteHomeworks){
 		document.querySelector("[settings-name=\"waitBeforeDeleteHomeworks\"]").setAttribute("checked", "true")
 		document.querySelector("[settings-name=\"waitBeforeDeleteHomeworks\"]").innerHTML = "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>"
 	}
-	if(settings?.forceBlurEffect){
+	if(settings?.forceBlurEffect && platform == "win32"){
 		document.querySelector("[settings-name=\"forceBlurEffect\"]").setAttribute("checked", "true")
 		document.querySelector("[settings-name=\"forceBlurEffect\"]").innerHTML = "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>"
 	}
+
+	// On retire le réglage disponible que pour Windows si on est pas sous Windows
+	if(platform != "win32") document.getElementById("forceBlurEffect").remove()
 
 	// Définir les select
 	if(settings?.defaultTab) document.querySelector("[settings-name=\"defaultTab\"]").value = settings.defaultTab == "note" ? "Prise de notes" : "Agenda"
@@ -448,7 +497,7 @@ function addSettingsToPage(){
 	document.querySelector("[settings-name=\"matieres\"]").innerHTML = ""
 	var matieresContainer = document.querySelector("[settings-name=\"matieres\"]")
 	var listMatieres = JSON.parse(JSON.stringify(settings?.matieres || [])).filter(m => m.lower && m.upper)
-	console.log(listMatieres)
+
 	// On ajoute une matière vide qui servira à rajouter un champ vide
 	listMatieres.push({ lower: "", upper: "", color: "" })
 
@@ -480,7 +529,7 @@ function changeSetting(element){ // eslint-disable-line
 	var settingName = element.getAttribute("settings-name")
 
 	// En fonction du nom
-	if(settingName == "openOnStartup" || settingName == "waitBeforeDeleteHomeworks" || settingName == "forceBlurEffect"){
+	if(settingName == "waitBeforeDeleteHomeworks" || settingName == "forceBlurEffect"){
 		// On change le réglage
 		settings[settingName] = !settings[settingName]
 		electronIpc.send("config", "set", `settings.${settingName}`, settings[settingName])
