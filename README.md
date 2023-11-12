@@ -9,19 +9,33 @@ Agenda                     |  Ajout de devoirs         |  Prise de notes
 
 ## Installation
 
-> **Note :** Agendapp n'est disponible que pour Windows 10/11 à l'heure actuelle.
+## Windows 10/11
 
-* Téléchargez le fichier `Agendapp.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
+* Téléchargez le fichier `agendapp-*-win32-x64.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
 * Décompressez le fichier ZIP puis exécutez le fichier `Agendapp.exe` pour démarrer l'application.
 * Vous pouvez créer un raccourci vers `Agendapp.exe` pour lancer l'application plus facilement.
 
 Un installateur sera disponible dans une version future.
 
+## macOS
+
+* Cherchez et téléchargez le fichier `agendapp-*-macos-*.dmg` (en fonction de votre architecture, Intel = x64 ; Sillicon = arm64) dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
+* Ouvrez le fichier DMG puis déplacez l'application `Agendapp.app` dans le dossier Applications.
+
+> Pour ouvrir ce fichier sur un processeur Apple Silicon (M1 et supérieur), vous devrez potentiellement exécuter ces commandes dans le terminal :
+
+```bash
+sudo spctl --master-disable
+sudo chmod -R 777 /Applications/Agendapp.app
+xattr -d com.apple.quarantine /Applications/Agendapp.app
+xattr -cr /Applications/Agendapp.app
+```
+
 ## Utilisation
 
 ### Démarrage
 
-Il est possible de configurer via les paramètres de l'application différents réglages pour améliorer votre expérience d'utilisation. Par exemple, le démarrage automatique de l'application au démarrage de Windows, ou encore l'onglet par défaut.
+Il est possible de configurer via les paramètres de l'application différents réglages pour améliorer votre expérience d'utilisation. Par exemple, le démarrage automatique de l'application au démarrage de l'OS, ou encore l'onglet par défaut.
 
 ### Agenda
 
@@ -51,23 +65,23 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 
 ### Pendant l'écriture d'un devoir ou d'une note
 
-* `Ctrl + B` → met en gras le texte sélectionné
-* `Ctrl + I` → met en italique le texte sélectionné
-* `Ctrl + U` → souligne le texte sélectionné
-* `Ctrl + O` → permet d'attacher un fichier (maximum 1 fichier)
-* `Ctrl + Enter` → enregistre le devoir ou la note
+* `Ctrl/Cmd + B` → met en gras le texte sélectionné
+* `Ctrl/Cmd + I` → met en italique le texte sélectionné
+* `Ctrl/Cmd + U` → souligne le texte sélectionné
+* `Ctrl/Cmd + O` → permet d'attacher un fichier (maximum 1 fichier)
+* `Ctrl/Cmd + Enter` → enregistre le devoir ou la note
 
 ### Dans l'application
 
 * `Échap` → ferme la fenêtre ouverte
-* `Ctrl/Alt + 1/&` → ouvre l'onglet "Agenda"
-* `Ctrl/Alt + 2/é` → ouvre l'onglet "Notes"
-* `Ctrl/Alt + 3/"` → ouvre l'onglet "Réglages"
-* `Ctrl + L` → focus la zone de recherche
+* `Ctrl/Cmd/Alt + 1/&` → ouvre l'onglet "Agenda"
+* `Ctrl/Cmd/Alt + 2/é` → ouvre l'onglet "Notes"
+* `Ctrl/Cmd/Alt + 3/"` → ouvre l'onglet "Réglages"
+* `Ctrl/Cmd + L` → focus la zone de recherche
 
 ### Hors de l'application
 
-* `Ctrl + Shift + A` → ouvre l'application (ou la fermer si elle est déjà ouverte)
+* `Ctrl/Cmd + Shift + A` → ouvre l'application (ou la fermer si elle est déjà ouverte)
 
 ## Licence
 
