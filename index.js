@@ -79,7 +79,6 @@ if(!store.has("settings")) store.set("settings", {
 		{ lower: "SVT", upper: "SVT", color: "#d6a0c8" },
 	],
 	defaultOpenPath: app.getPath("documents"),
-	openOnStartup: true,
 	defaultTab: "agenda",
 	waitBeforeDeleteHomeworks: false,
 	forceBlurEffect: false
@@ -87,17 +86,6 @@ if(!store.has("settings")) store.set("settings", {
 
 // Paramètres
 var settings = store.get("settings")
-
-// Démarrer au démarrage, si on est pas en train de débugger
-if(!app.isPackaged) app.setLoginItemSettings({ openAtLogin: false })
-else app.setLoginItemSettings({
-	openAtLogin: settings?.openOnStartup || false,
-	path: app.getPath("exe"),
-	name: "Agendapp",
-	args: [
-		"--process-start-args", "\"--hidden\""
-	]
-})
 
 // On définit qlq variables
 var window
@@ -108,7 +96,7 @@ function showAbout(){
 	console.log("Showing about dialog...")
 	dialog.showMessageBox(window, {
 		title: "À propos d'Agendapp",
-		detail: `Agendapp v${app.getVersion()} par Johan Stickman / https://github.com/johan-perso/agendapp\n\n====== Configuration ======\nAgenda : ${store.get("agenda")?.length}\nNote : ${store.get("notes")?.length}\nMatière : ${store.get("settings.matieres")?.length}\nDossier par défaut : ${store.get("settings.defaultOpenPath")}\nOuverture au démarrage : ${store.get("settings.openOnStartup")}\nOnglet par défaut : ${store.get("settings.defaultTab")}\nDélai avant de supprimer les devoirs : ${store.get("settings.waitBeforeDeleteHomeworks")}\n\n====== Chemins ======\nApp: ${app.getPath("exe")}\nConfig: ${store.path}\n\n====== Versions ======\nElectron: ${process.versions.electron}\nNodeJS: ${process.versions.node}\nChromium: ${process.versions.chrome}\n\n====== Système ======\nOS: ${process.platform}\nArchitecture: ${process.arch}`
+		detail: `Agendapp v${app.getVersion()} par Johan Stickman / https://github.com/johan-perso/agendapp\n\n====== Configuration ======\nAgenda : ${store.get("agenda")?.length}\nNote : ${store.get("notes")?.length}\nThèmes : ${store.get("settings.matieres")?.length}\nDossier par défaut : ${store.get("settings.defaultOpenPath")}\nOnglet par défaut : ${store.get("settings.defaultTab")}\nDélai avant de supprimer les devoirs : ${store.get("settings.waitBeforeDeleteHomeworks")}\n\n====== Chemins ======\nApp: ${app.getPath("exe")}\nConfig: ${store.path}\n\n====== Versions ======\nElectron: ${process.versions.electron}\nNodeJS: ${process.versions.node}\nChromium: ${process.versions.chrome}\n\n====== Système ======\nOS: ${process.platform}\nArchitecture: ${process.arch}`
 	})
 }
 
@@ -145,7 +133,7 @@ function stopApp(){
 async function main(){
 	// icone tray pour macOS
 	let trayIcon;
-	(process.platform === "darwin") ? trayIcon = "src/icons/tray_darwin.png" : trayIcon = "src/icons/transparent.png"
+	(process.platform === "darwin") ? trayIcon = "src/icons/DarwinTemplate.png" : trayIcon = "src/icons/transparent.png"
 
 	// On crée une Tray (icône dans la barre des tâches)
 	const tray = new Tray(join(__dirname, trayIcon))
@@ -159,7 +147,6 @@ async function main(){
 		{ label: "À propos", click: () => showAbout() },
 		{ label: "Quitter", click: () => stopApp() },
 	])
-	tray.setContextMenu(trayContextMenu)
 
 	// Définir la fonction pour afficher la fenêtre
 	showWindow = () => {
@@ -178,6 +165,10 @@ async function main(){
 	tray.on("click", () => {
 		console.log("Tray clicked, showing window...")
 		showWindow()
+	})
+
+	tray.on("right-click", () => {
+		tray.popUpContextMenu(trayContextMenu)
 	})
 
 	// On crée la fenêtre
@@ -199,6 +190,7 @@ async function main(){
 		fullscreenable: false,
 		autoHideMenuBar: true,
 		frame: false,
+		hiddenInMissionControl: true,
 		titleBarStyle: platform() !== "darwin" && "hidden",
 		show: false,
 	})
@@ -229,8 +221,11 @@ async function main(){
 		console.log("Window showed.")
 		// Si l'application n'a jamais été affichée
 		if(!hasAppShowedOnce){
-			// On met l'effet flou en arrière plan
-			try { console.log("Applying blur effet."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // on passe en flou mais avec du CSS ça sera que très peu flou
+			// On met l'effet flou en arrière plan (Windows)
+			if(platform() == "win32") try { console.log("Applying blur effet."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // on passe en flou mais avec du CSS ça sera que très peu flou
+
+			// On masque l'appli dans le dock (macOS)
+			if(platform() == "darwin") app.dock.hide()
 
 			// On modifie la variable et on log un truc
 			hasAppShowedOnce = true
@@ -248,7 +243,7 @@ async function main(){
 					var notification = new Notification({
 						title: "Mise à jour disponible",
 						body: `Vous avez la version ${app.getVersion()} et la dernière est ${latestPackageJson.version}. Cliquez ici pour mettre à jour.`,
-						icon: join(__dirname, "src/icons/icon.png")
+						icon: platform == "darwin" ? null : join(__dirname, "src/icons/icon.png")
 					})
 
 					// Quand on clique sur la notification
@@ -275,6 +270,16 @@ async function main(){
 	})
 	ipcMain.on("showmysite", () => { // afficher mon site
 		shell.openExternal("https://johanstick.fr")
+	})
+	ipcMain.on("enable-autostart", () => { // activer le démarrage au démarrage
+		app.setLoginItemSettings({
+			openAtLogin: true,
+			path: app.getPath("exe"),
+			name: "Agendapp",
+			args: [
+				"--process-start-args", "\"--hidden\""
+			]
+		})
 	})
 	ipcMain.on("config", (event, action, data, data2) => { // configuration
 		console.log("IPC used config:", action, data, data2)
@@ -304,7 +309,7 @@ async function main(){
 		console.log("IPC is opening config...")
 		shell.openPath(store.path)
 	})
-	ipcMain.on("add-homework", async (event, matiere = "Aucune matière", date = new Date(), content = "Contenu vide", file = null) => { // ajouter un devoir
+	ipcMain.on("add-homework", async (event, matiere = "Aucun thème", date = new Date(), content = "Contenu vide", file = null) => { // ajouter un devoir
 		console.log("IPC is adding homework:", matiere, date, content, file)
 		// On ajoute le devoir
 		const agenda = store.get("agenda") || []
@@ -320,7 +325,7 @@ async function main(){
 		// On retourn l'agenda
 		event.returnValue = agenda
 	})
-	ipcMain.on("add-note", async (event, matiere = "Aucune matière", content = "Contenu vide", file = null) => { // ajouter une note
+	ipcMain.on("add-note", async (event, matiere = "Aucun thème", content = "Contenu vide", file = null) => { // ajouter une note
 		console.log("IPC is adding note:", matiere, content, file)
 		// On ajoute la note
 		const notes = store.get("notes") || []
@@ -384,12 +389,16 @@ async function main(){
 app.whenReady().then(async () => {
 	main() // on démarre
 
-	// On crée les raccourcis clavier
-	globalShortcut.register("CommandOrControl+Shift+A", () => {
+	// Fonction pour afficher l'app suite à un raccourci clavier
+	shortcutShowWindow = () => {
 		console.log(`Shortcut pressed, ${window.isVisible() ? "hiding" : "showing"} window...`)
 		if(window.isVisible()) window.hide()
 		else showWindow()
-	})
+	}
+
+	// On crée les raccourcis clavier
+	globalShortcut.register("CommandOrControl+Shift+A", () => shortcutShowWindow())
+	globalShortcut.register("CommandOrControl+Shift+Q", () => shortcutShowWindow())
 
 	app.on("activate", () => { // nécessaire pour macOS
 		if(BrowserWindow.getAllWindows().length === 0) main()
