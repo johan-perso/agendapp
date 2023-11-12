@@ -1,7 +1,8 @@
 const { contextBridge, ipcRenderer } = require("electron")
 
-// Exposer des fonctions
+// Exposer des fonctions et l'OS
 contextBridge.exposeInMainWorld("electronIpc", ipcRenderer)
+contextBridge.exposeInMainWorld("platform", process.platform)
 
 // Envoyer les messages du processus principal au rendu
 ipcRenderer.on("contextmenu", (event, arg) => {
