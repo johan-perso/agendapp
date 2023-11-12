@@ -711,6 +711,16 @@ video {
   padding: 0.75rem;
 }
 
+.px-0 {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.px-0\.5 {
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+}
+
 .px-1 {
   padding-left: 0.25rem;
   padding-right: 0.25rem;
@@ -982,6 +992,34 @@ textarea::-webkit-scrollbar-thumb:hover {
   background: var(--scrollBar-thumb-hover);
 }
 
+/* segoe-ui-regular - latin */
+
+@font-face {
+  font-display: swap;
+
+  font-family: 'Segoe UI';
+
+  font-style: normal;
+
+  font-weight: 400;
+
+  src: url('fonts/segoe-ui.ttf') format('truetype');
+}
+
+/* segoe-ui-600 - latin */
+
+@font-face {
+  font-display: swap;
+
+  font-family: 'Segoe UI';
+
+  font-style: normal;
+
+  font-weight: 600;
+
+  src: url('fonts/segoe-ui-bold.ttf') format('truetype');
+}
+
 /* poppins-regular - latin */
 
 @font-face {
@@ -993,7 +1031,8 @@ textarea::-webkit-scrollbar-thumb:hover {
 
   font-weight: 400;
 
-  src: url('fonts/poppins-v20-latin-regular.woff2') format('woff2');
+  src: url('fonts/poppins-v20-latin-regular.woff2') format('woff2'),
+		url('fonts/poppins-v20-latin-regular.ttf') format('truetype');
 }
 
 /* poppins-500 - latin */
@@ -1007,7 +1046,8 @@ textarea::-webkit-scrollbar-thumb:hover {
 
   font-weight: 500;
 
-  src: url('fonts/poppins-v20-latin-500.woff2') format('woff2');
+  src: url('fonts/poppins-v20-latin-500.woff2') format('woff2'),
+		url('fonts/poppins-v20-latin-500.ttf') format('truetype');
 }
 
 /* poppins-600 - latin */
@@ -1021,7 +1061,8 @@ textarea::-webkit-scrollbar-thumb:hover {
 
   font-weight: 600;
 
-  src: url('fonts/poppins-v20-latin-600.woff2') format('woff2');
+  src: url('fonts/poppins-v20-latin-600.woff2') format('woff2'),
+		url('fonts/poppins-v20-latin-600.ttf') format('truetype');
 }
 
 /* poppins-700 - latin */
@@ -1035,7 +1076,8 @@ textarea::-webkit-scrollbar-thumb:hover {
 
   font-weight: 700;
 
-  src: url('fonts/poppins-v20-latin-700.woff2') format('woff2');
+  src: url('fonts/poppins-v20-latin-700.woff2') format('woff2'),
+		url('fonts/poppins-v20-latin-700.ttf') format('truetype');
 }
 
 .hover\:bg-\[\#e8e8e8\]:hover {
