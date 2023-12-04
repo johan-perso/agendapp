@@ -690,11 +690,6 @@ video {
   border-color: rgb(232 232 232 / var(--tw-border-opacity));
 }
 
-.bg-\[\#e8e8e8\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(232 232 232 / var(--tw-bg-opacity));
-}
-
 .fill-current {
   fill: currentColor;
 }
@@ -719,11 +714,6 @@ video {
 .px-0\.5 {
   padding-left: 0.125rem;
   padding-right: 0.125rem;
-}
-
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
 }
 
 .px-2 {
@@ -797,6 +787,10 @@ video {
 
 .italic {
   font-style: italic;
+}
+
+.leading-relaxed {
+  line-height: 1.625;
 }
 
 .text-black {
@@ -992,6 +986,20 @@ textarea::-webkit-scrollbar-thumb:hover {
   background: var(--scrollBar-thumb-hover);
 }
 
+/* segoe-ui-300 - latin */
+
+@font-face {
+  font-display: swap;
+
+  font-family: 'Segoe UI';
+
+  font-style: normal;
+
+  font-weight: 300;
+
+  src: url('fonts/segoe-ui-light.ttf') format('truetype');
+}
+
 /* segoe-ui-regular - latin */
 
 @font-face {
@@ -1004,6 +1012,20 @@ textarea::-webkit-scrollbar-thumb:hover {
   font-weight: 400;
 
   src: url('fonts/segoe-ui.ttf') format('truetype');
+}
+
+/* segoe-ui-500 - latin */
+
+@font-face {
+  font-display: swap;
+
+  font-family: 'Segoe UI';
+
+  font-style: normal;
+
+  font-weight: 500;
+
+  src: url('fonts/segoe-ui-semibold.ttf') format('truetype');
 }
 
 /* segoe-ui-600 - latin */
@@ -1103,11 +1125,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   .dark\:border-\[\#e8e8e8\] {
     --tw-border-opacity: 1;
     border-color: rgb(232 232 232 / var(--tw-border-opacity));
-  }
-
-  .dark\:bg-\[\#292929\] {
-    --tw-bg-opacity: 1;
-    background-color: rgb(41 41 41 / var(--tw-bg-opacity));
   }
 
   .dark\:text-\[\#EFEFEF\] {

@@ -136,6 +136,14 @@ textarea::-webkit-scrollbar-thumb:hover {
 	background: var(--scrollBar-thumb-hover);
 }
 
+/* segoe-ui-300 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Segoe UI';
+	font-style: normal;
+	font-weight: 300;
+	src: url('fonts/segoe-ui-light.ttf') format('truetype');
+}
 /* segoe-ui-regular - latin */
 @font-face {
 	font-display: swap;
@@ -143,6 +151,14 @@ textarea::-webkit-scrollbar-thumb:hover {
 	font-style: normal;
 	font-weight: 400;
 	src: url('fonts/segoe-ui.ttf') format('truetype');
+}
+/* segoe-ui-500 - latin */
+@font-face {
+	font-display: swap;
+	font-family: 'Segoe UI';
+	font-style: normal;
+	font-weight: 500;
+	src: url('fonts/segoe-ui-semibold.ttf') format('truetype');
 }
 /* segoe-ui-600 - latin */
 @font-face {
