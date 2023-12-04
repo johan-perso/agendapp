@@ -14,8 +14,8 @@
 	<div class="ml-2 mt-2 flex">
 		<!-- Onglets -->
 		<div class="rounded-md boxshadow w-fit bg-fcfcfc dark-bg-343434 border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
-			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Agenda</button>
-			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Prise de notes</button>
+			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.agenda"></button>
+			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.note"></button>
 		</div>
 
 		<!-- Bouton réglages de l'autre côté -->
@@ -30,13 +30,13 @@
 
 	<!-- Inputs -->
 	<div class="px-2 mt-5">
-		<input id="input_date" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Commencer à saisir une date..." autofocus>
-		<textarea id="input_content" rows="4" spellcheck="true" class="resize-none outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Commencer à saisir du texte..." style="display: none;"></textarea>
+		<input id="input_date" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="path:placeholders.date" autofocus>
+		<textarea id="input_content" rows="4" spellcheck="true" class="resize-none outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="path:placeholders.homework" style="display: none;"></textarea>
 
 		<div id="input_additional" class="mt-2 flex" style="display: none;">
 			<!-- Choisir le thème -->
 			<select id="input_matiere" class="outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
-				<option selected>Aucun thème</option>
+				<option path="placeholders.noTheme" selected></option>
 				<option disabled>──────────</option>
 			</select>
 

@@ -14,8 +14,8 @@
 	<div class="ml-2 mt-2 flex">
 		<!-- Onglets -->
 		<div class="rounded-md boxshadow w-fit bg-fcfcfc dark-bg-343434 border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
-			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Agenda</button>
-			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Prise de notes</button>
+			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.agenda"></button>
+			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.note"></button>
 		</div>
 
 		<!-- Bouton réglages de l'autre côté -->
@@ -30,12 +30,12 @@
 
 	<!-- Inputs -->
 	<div class="px-2 mt-5">
-		<textarea id="input_content" spellcheck="true" class="resize-none outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] h-[4.25rem] focus:h-[10rem]" onchange="this.value ? (this.classList.add('h-[10rem]') & this.classList.remove('h-[4.25rem]')) : (this.classList.add('h-[4.25rem]') & this.classList.remove('h-[10rem]'))" style="transition: height 0.25s ease-in-out;" placeholder="Commencez à saisir du texte pour débuter l'écriture d'une prise de note..." autofocus></textarea>
+		<textarea id="input_content" spellcheck="true" class="resize-none outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] h-[4.25rem] focus:h-[10rem]" onchange="this.value ? (this.classList.add('h-[10rem]') & this.classList.remove('h-[4.25rem]')) : (this.classList.add('h-[4.25rem]') & this.classList.remove('h-[10rem]'))" style="transition: height 0.25s ease-in-out;" placeholder="path:placeholders.note" autofocus></textarea>
 
 		<div id="input_additional" class="mt-2 flex">
 			<!-- Choisir le thème -->
 			<select id="input_matiere" class="outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
-				<option selected>Aucun thème</option>
+				<option path="placeholders.noTheme" selected></option>
 				<option disabled>──────────</option>
 			</select>
 
@@ -54,7 +54,7 @@
 
 	<!-- Liste des notes -->
 	<div id="notes" class="px-2 mt-5 hidden">
-		<h1 class="font-bold text-base">Prises de notes récentes :</h1>
+		<h1 class="font-bold text-base"><lang path="placeholders.recentNotes"></lang></h1>
 		<input id="input_notesearch" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Rechercher une note...">
 		<div id="notes_container" class="mt-3"></div>
 	</div>

@@ -1,0 +1,99 @@
+{
+	"contextMenu": {
+		"copy": "Copy",
+		"paste": "Paste",
+		"cut": "Cut",
+		"copyLink": "Copy link",
+		"copyImage": "Copy image",
+		"inspect": "Inspect element"
+	},
+	"contextMenuControls": {
+		"bold": "Bold",
+		"italic": "Italic",
+		"underline": "Underline"
+	},
+	"about": {
+		"title": "About Agendapp",
+		"text": "Agendapp v{{APP_VERSION}} by Johan Stickman / https://github.com/johan-perso/agendapp\n\n====== Settings ======\nAgenda: {{AGENDA_LENGTH}}\nNote: {{NOTES_LENGTH}}\nThemes: {{MATIERES_LENGTH}}\nDefault folder: {{DEFAULT_OPEN_PATH}}\nDefault tab: {{DEFAULT_TAB}}\nDelay before deleting homeworks: {{WAIT_BEFORE_DELETE_HOMEWORKS}}\n\n====== Paths ======\nApp: {{APP_PATH}}\nConfig: {{CONFIG_PATH}}\n\n====== Versions ======\nElectron: {{ELECTRON_VERSION}}\nNodeJS: {{NODE_VERSION}}\nChromium: {{CHROMIUM_VERSION}}\n\n====== System ======\nOS: {{OS}}\nArch: {{ARCH}}"
+	},
+	"updater": {
+		"title": "Update available",
+		"text": "You have version {{APP_VERSION}} and the latest is {{LATEST_VERSION}}. Click here to update."
+	},
+	"attachFile": {
+		"title": "Attach a file",
+		"buttonLabel": "Open"
+	},
+	"restartRequired": {
+		"title": "Restart required",
+		"text": "To apply changes, the app must be restarted."
+	},
+	"navbar": {
+		"agenda": "Agenda",
+		"note": "Note taking"
+	},
+	"placeholders": {
+		"date": "Begin by typing a date...",
+		"homework": "Type here the content of whatever you want",
+		"note": "Type here some text to start taking note...",
+		"noTheme": "No theme",
+		"noContent": "No content",
+		"today": "Today",
+		"tomorrow": "Tomorrow",
+		"recentNotes": "Recent notes :",
+		"searchResults": "Search results"
+	},
+	"settings": {
+		"autostart": {
+			"title": "Open at start",
+			"description": "Automatically open Agendapp in the background when your device starts.",
+			"action": "Click to enable",
+			"enabled": {
+				"windows": "Agendapp will open itself in background when you start your device. You can change this setting in the task manager.",
+				"macos": "Agendapp will open itself in background when you start your device. You can change this setting in the system preferences.",
+				"other": "Agendapp will open itself in background when you start your device. You can change this setting in the system settings."
+			}
+		},
+		"waitBeforeDeleteHomeworks": {
+			"title": "Delay before deleting homeworks",
+			"description": "You will have 4 seconds after checking a homework to uncheck it before it is deleted."
+		},
+		"forceBlurEffect": {
+			"title": "Force blur effect",
+			"description": "In case the background of the app becomes opaque at some moments. Not recommended otherwise."
+		},
+		"language": {
+			"title": "App language",
+			"description": "Language used to display texts in the application.",
+			"defaultLanguage": "System default"
+		},
+		"defaultTab": {
+			"title": "Default tab",
+			"description": "The tab that will open by default when the application starts.",
+			"agenda": "Agenda",
+			"note": "Note taking"
+		},
+		"defaultOpenPath": {
+			"title": "Default path",
+			"description": "Default path when attaching a file through the CTRL+O shortcut."
+		},
+		"matieres": {
+			"title": "Liste of themes",
+			"lowerName": "Minimalist name",
+			"upperName": "Uppercase name",
+			"hexColor": "Color in hexadecimal format",
+			"add": "Add",
+			"update": "Update"
+		},
+		"footer": {
+			"developedBy": "Developed by",
+			"showJSON": "Open JSON config",
+			"showInfo": "Show debug info"
+		}
+	},
+	"dateParser": {
+		"daysOfWeek": { "monday": 1, "tuesday": 2, "wednesday": 3, "thursday": 4, "friday": 5, "saturday": 6, "sunday": 0 },
+		"shortdaysOfWeek": { "mo": 1, "tu": 2, "we": 3, "th": 4, "fr": 5, "sa": 6, "su": 0 },
+		"monthNames": ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
+	}
+}
