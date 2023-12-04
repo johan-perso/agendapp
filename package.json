@@ -3,7 +3,7 @@
 	"name": "agendapp",
 	"productName": "Agendapp",
 	"description": "Un agenda et un outil de prise de notes intégrés dans votre barre d'état",
-	"version": "1.3.0",
+	"version": "1.4.0",
 	"main": "index.js",
 	"scripts": {
 		"start": "electron .",
@@ -12,14 +12,12 @@
 		"build-exe-x64": "electron-packager . --platform=win32 --arch=x64 --icon=src/icons/icon.ico --out=release-builds --overwrite",
 		"build-app-x64": "electron-packager . --platform=darwin --arch=x64 --icon=src/icons/icon.icns --out=release-builds --overwrite",
 		"build-app-arm64": "electron-packager . --platform=darwin --arch=arm64 --icon=src/icons/icon.icns --out=release-builds --overwrite",
-		"create-dmg-cli": "create-dmg",
 		"build": "node build.js"
 	},
 	"author": "Johan Stickman",
 	"license": "MIT",
 	"devDependencies": {
 		"archiver": "^6.0.1",
-		"create-dmg": "^6.1.0",
 		"electron": "^20.0.0",
 		"electron-packager": "^17.1.2",
 		"eslint": "^8.48.0",
@@ -29,7 +27,8 @@
 		"electron-context-menu": "^3.6.1",
 		"electron-store": "^8.1.0",
 		"electron-traywindow-positioner": "^1.2.0",
-		"mica-electron": "^1.4.9",
-		"node-fetch": "^2.6.7"
+		"mica-electron": "^1.5.3",
+		"node-fetch": "^2.6.7",
+		"os-locale": "5.0.0"
 	}
 }
