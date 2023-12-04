@@ -4,56 +4,6 @@ const positioner = require("electron-traywindow-positioner")
 const fetch = require("node-fetch")
 const { join } = require("path")
 
-// Mica
-var BrowserWindow
-if(process.platform == "win32") BrowserWindow = require("mica-electron").MicaBrowserWindow
-else BrowserWindow = require("electron").BrowserWindow
-
-// Menu contextuel
-const contextMenu = require("electron-context-menu")
-contextMenu({
-	// Désactiver des options par défaut
-	showSearchWithGoogle: false,
-	showLearnSpelling: false,
-	showLookUpSelection: false,
-	showSelectAll: false,
-
-	// Traduire en français des options par défaut
-	labels: {
-		copy: "Copier",
-		paste: "Coller",
-		cut: "Couper",
-		copyLink: "Copier le lien",
-		copyImage: "Copier l'image",
-		inspect: "Inspecter l'élément"
-	},
-
-	// Ajouter des options
-	prepend: (defaultActions, params, browserWindow) => [
-		{
-			label: "Gras",
-			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
-			click: () => {
-				browserWindow.webContents.send("contextmenu", "bold")
-			}
-		},
-		{
-			label: "Italique",
-			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
-			click: () => {
-				browserWindow.webContents.send("contextmenu", "italic")
-			}
-		},
-		{
-			label: "Souligné",
-			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
-			click: () => {
-				browserWindow.webContents.send("contextmenu", "underline")
-			}
-		}
-	]
-})
-
 // Configuration
 const Store = require("electron-store")
 const { platform } = require("os")
@@ -78,6 +28,7 @@ if(!store.has("settings")) store.set("settings", {
 		{ lower: "Physique-Chimie", upper: "PHYSIQUE-CHIMIE", color: "#c93e69" },
 		{ lower: "SVT", upper: "SVT", color: "#d6a0c8" },
 	],
+	shortcuts: ["CommandOrControl+Shift+A", "CommandOrControl+Shift+Q"],
 	defaultOpenPath: app.getPath("documents"),
 	defaultTab: "agenda",
 	waitBeforeDeleteHomeworks: false,
@@ -86,6 +37,74 @@ if(!store.has("settings")) store.set("settings", {
 
 // Paramètres
 var settings = store.get("settings")
+var language = settings.language
+
+// Obtenir la langue à utiliser
+const osLocale = require("os-locale")
+var locale = osLocale.sync()
+if(!language) language = locale
+console.log(`Language: ${language}`)
+
+// Obtenir le fichier de langue
+var lang
+try {
+	lang = require(`./src/languages/${language}.json`)
+	console.log(`Language file: ${language}.json`)
+} catch(err){
+	console.log(`Cannot load language file "${language}.json", using default (en-US.json).`)
+	lang = require("./src/languages/en-US.json")
+}
+
+// Envoyer la langue au rendu
+ipcMain.on("get-lang", (event) => {
+	event.returnValue = lang
+})
+ipcMain.on("get-locale", (event) => {
+	event.returnValue = locale
+})
+
+// Fenêtre du navigateur
+var BrowserWindow
+if(process.platform == "win32") BrowserWindow = require("mica-electron").MicaBrowserWindow
+else BrowserWindow = require("electron").BrowserWindow
+
+// Menu contextuel
+const contextMenu = require("electron-context-menu")
+contextMenu({
+	// Désactiver des options par défaut
+	showSearchWithGoogle: false,
+	showLearnSpelling: false,
+	showLookUpSelection: false,
+	showSelectAll: false,
+
+	// Traduire en français des options par défaut
+	labels: lang.contextMenu,
+
+	// Ajouter des options
+	prepend: (defaultActions, params, browserWindow) => [
+		{
+			label: lang.contextMenuControls.bold,
+			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
+			click: () => {
+				browserWindow.webContents.send("contextmenu", "bold")
+			}
+		},
+		{
+			label: lang.contextMenuControls.italic,
+			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
+			click: () => {
+				browserWindow.webContents.send("contextmenu", "italic")
+			}
+		},
+		{
+			label: lang.contextMenuControls.underline,
+			visible: params.selectionText.trim().length > 0, // uniquement si du texte est sélectionné
+			click: () => {
+				browserWindow.webContents.send("contextmenu", "underline")
+			}
+		}
+	]
+})
 
 // On définit qlq variables
 var window
@@ -95,8 +114,22 @@ var showWindow
 function showAbout(){
 	console.log("Showing about dialog...")
 	dialog.showMessageBox(window, {
-		title: "À propos d'Agendapp",
-		detail: `Agendapp v${app.getVersion()} par Johan Stickman / https://github.com/johan-perso/agendapp\n\n====== Configuration ======\nAgenda : ${store.get("agenda")?.length}\nNote : ${store.get("notes")?.length}\nThèmes : ${store.get("settings.matieres")?.length}\nDossier par défaut : ${store.get("settings.defaultOpenPath")}\nOnglet par défaut : ${store.get("settings.defaultTab")}\nDélai avant de supprimer les devoirs : ${store.get("settings.waitBeforeDeleteHomeworks")}\n\n====== Chemins ======\nApp: ${app.getPath("exe")}\nConfig: ${store.path}\n\n====== Versions ======\nElectron: ${process.versions.electron}\nNodeJS: ${process.versions.node}\nChromium: ${process.versions.chrome}\n\n====== Système ======\nOS: ${process.platform}\nArchitecture: ${process.arch}`
+		title: lang.about.title,
+		detail: lang.about.text
+			.replaceAll("{{APP_VERSION}}", app.getVersion())
+			.replaceAll("{{AGENDA_LENGTH}}", store.get("agenda")?.length)
+			.replaceAll("{{NOTES_LENGTH}}", store.get("notes")?.length)
+			.replaceAll("{{MATIERES_LENGTH}}", store.get("settings.matieres")?.length)
+			.replaceAll("{{DEFAULT_OPEN_PATH}}", store.get("settings.defaultOpenPath"))
+			.replaceAll("{{DEFAULT_TAB}}", store.get("settings.defaultTab"))
+			.replaceAll("{{WAIT_BEFORE_DELETE_HOMEWORKS}}", store.get("settings.waitBeforeDeleteHomeworks"))
+			.replaceAll("{{APP_PATH}}", app.getPath("exe"))
+			.replaceAll("{{CONFIG_PATH}}", store.path)
+			.replaceAll("{{ELECTRON_VERSION}}", process.versions.electron)
+			.replaceAll("{{NODE_VERSION}}", process.versions.node)
+			.replaceAll("{{CHROMIUM_VERSION}}", process.versions.chrome)
+			.replaceAll("{{OS}}", process.platform)
+			.replaceAll("{{ARCH}}", process.arch)
 	})
 }
 
@@ -147,6 +180,7 @@ async function main(){
 		{ label: "À propos", click: () => showAbout() },
 		{ label: "Quitter", click: () => stopApp() },
 	])
+	if(process.platform == "linux") tray.setContextMenu(trayContextMenu)
 
 	// Définir la fonction pour afficher la fenêtre
 	showWindow = () => {
@@ -204,13 +238,6 @@ async function main(){
 		if(ready) console.log("Window lost focus, hiding...")
 		if(ready) window.hide()
 	})
-
-	// On l'affiche quand elle est prête
-	if(!process.argv.includes("--hidden")){
-		console.log("Showing at start...")
-		window.focus()
-		showWindow()
-	} else console.log("Hidden at start.")
 	setTimeout(() => {
 		ready = true
 	}, 700)
@@ -222,7 +249,13 @@ async function main(){
 		// Si l'application n'a jamais été affichée
 		if(!hasAppShowedOnce){
 			// On met l'effet flou en arrière plan (Windows)
-			if(platform() == "win32") try { console.log("Applying blur effet."); window.setBlur() } catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // on passe en flou mais avec du CSS ça sera que très peu flou
+			if(platform() == "win32") try {
+				try { // On essaye l'effet Mica (Windows 11 22H2)
+					console.log("Applying Mica effet."); window?.setMicaTabbedEffect()
+				} catch(err){ // Si on a pas réussi, on essaye l'effet flou (Windows 10 et 11 21H2)
+					console.log("Failed to apply Mica effet, trying blur effet..."); window?.setBlur()
+				}
+			} catch(err){ console.log("Failed to apply blur effet (Windows 10 or newer is required).") } // Si on a réussi aucun des deux, on log un truc
 
 			// On masque l'appli dans le dock (macOS)
 			if(platform() == "darwin") app.dock.hide()
@@ -241,8 +274,8 @@ async function main(){
 
 					// Créer une notification
 					var notification = new Notification({
-						title: "Mise à jour disponible",
-						body: `Vous avez la version ${app.getVersion()} et la dernière est ${latestPackageJson.version}. Cliquez ici pour mettre à jour.`,
+						title: lang.updater.title,
+						body: lang.updater.text.replace("{{APP_VERSION}}", app.getVersion()).replace("{{LATEST_VERSION}}", latestPackageJson.version),
 						icon: platform == "darwin" ? null : join(__dirname, "src/icons/icon.png")
 					})
 
@@ -276,9 +309,7 @@ async function main(){
 			openAtLogin: true,
 			path: app.getPath("exe"),
 			name: "Agendapp",
-			args: [
-				"--process-start-args", "\"--hidden\""
-			]
+			args: []
 		})
 	})
 	ipcMain.on("config", (event, action, data, data2) => { // configuration
@@ -292,12 +323,22 @@ async function main(){
 
 		// On met à jour les paramètres
 		settings = store.get("settings")
+
+		// Si on a set settings.language
+		if(data == "settings.language"){
+			var notification = new Notification({
+				title: lang.restartRequired.title,
+				body: lang.restartRequired.text,
+				icon: platform == "darwin" ? null : join(__dirname, "src/icons/icon.png")
+			})
+			notification.show()
+		}
 	})
 	ipcMain.on("ask-file", async (event) => { // demander un fichier
 		console.log("IPC is asking file...")
 		const file = await dialog.showOpenDialog(window, {
-			title: "Attacher un fichier",
-			buttonLabel: "Ouvrir",
+			title: lang.attachFile.title,
+			buttonLabel: lang.attachFile.buttonLabel,
 			properties: ["openFile"],
 			defaultPath: settings?.defaultOpenPath || app.getPath("documents") || null
 		})
@@ -397,8 +438,12 @@ app.whenReady().then(async () => {
 	}
 
 	// On crée les raccourcis clavier
-	globalShortcut.register("CommandOrControl+Shift+A", () => shortcutShowWindow())
-	globalShortcut.register("CommandOrControl+Shift+Q", () => shortcutShowWindow())
+	settings?.shortcuts?.forEach((shortcut) => {
+		globalShortcut.register(shortcut, () => shortcutShowWindow())
+	})
+
+	// Masquer l'app du dock
+	if(platform() == "darwin") app.dock.hide()
 
 	app.on("activate", () => { // nécessaire pour macOS
 		if(BrowserWindow.getAllWindows().length === 0) main()
