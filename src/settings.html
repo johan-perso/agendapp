@@ -14,8 +14,8 @@
 	<div class="ml-2 mt-2 flex">
 		<!-- Onglets -->
 		<div class="rounded-md boxshadow w-fit bg-fcfcfc dark-bg-343434 border-[#e8e8e8] dark:border-[#464646] border-[0.5px]">
-			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Agenda</button>
-			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4">Prise de notes</button>
+			<button onclick="changeTab('agenda')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.agenda"></button>
+			<button onclick="changeTab('note')" class="rounded-md hover:bg-[#f4f4f4] dark:hover:bg-[#393939] py-2 px-4" path="navbar.note"></button>
 		</div>
 
 		<!-- Bouton réglages de l'autre côté -->
@@ -32,15 +32,15 @@
 	<div id="settings" class="px-2 ml-1 mr-1 mt-5 space-y-3">
 		<div class="flex">
 			<div>
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Ouverture au démarrage</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Permet d'ouvrir l'application Agendapp en arrière plan au démarrage de votre appareil. <a class="font-semibold" onclick="enableAutostart(this)">Cliquer pour activer</a>.</p>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.autostart.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text"><lang path="settings.autostart.description"></lang> <a class="font-semibold" onclick="enableAutostart(this)"><lang path="settings.autostart.action"></lang></a>.</p>
 			</div>
 		</div>
 
 		<div class="flex">
 			<div class="mr-2">
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Délai d'annulation des devoirs</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Vous aurez 4 secondes après avoir coché un devoir pour le décocher.</p>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.waitBeforeDeleteHomeworks.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text" path="settings.waitBeforeDeleteHomeworks.description"></p>
 			</div>
 			<div class="ml-auto flex items-center">
 				<svg settings-name="waitBeforeDeleteHomeworks" onclick="changeSetting(this)" class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 28 28" fill="none"><path fill="currentColor" d="M19.833 8.167a5.833 5.833 0 1 1 0 11.666H8.167a5.833 5.833 0 1 1 0-11.666h11.666Zm-11.375 8.75a2.916 2.916 0 1 0 0-5.833 2.916 2.916 0 0 0 0 5.833Z"/></svg>
@@ -49,8 +49,8 @@
 
 		<div class="flex" id="forceBlurEffect">
 			<div class="mr-2">
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Forcer l'effet flou</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Si l'arrière plan de l'app devient opaque à certains moments. Déconseillé dans le cas contraire.</p>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.forceBlurEffect.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text" path="settings.forceBlurEffect.description"></p>
 			</div>
 			<div class="ml-auto flex items-center">
 				<svg settings-name="forceBlurEffect" onclick="changeSetting(this)" class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewbox="0 0 28 28" fill="none"><path fill="currentColor" d="M19.833 8.167a5.833 5.833 0 1 1 0 11.666H8.167a5.833 5.833 0 1 1 0-11.666h11.666Zm-11.375 8.75a2.916 2.916 0 1 0 0-5.833 2.916 2.916 0 0 0 0 5.833Z"/></svg>
@@ -61,21 +61,35 @@
 
 		<div>
 			<div>
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Onglet par défaut</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">L'onglet qui s'ouvrira par défaut au démarrage de l'application</p>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.language.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text" path="settings.language.description"></p>
 			</div>
 			<div class="ml-auto flex items-center">
-				<select settings-name="defaultTab" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
-					<option>Agenda</option>
-					<option>Prise de notes</option>
+				<select settings-name="language" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+					<option path="settings.language.defaultLanguage">Système</option>
+					<option>English</option>
+					<option>Français</option>
 				</select>
 			</div>
 		</div>
 
 		<div>
 			<div>
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Chemin par défaut</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text">Chemin par défaut lors de l'attachement d'un fichier via le raccourci CTRL+O</p>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.defaultTab.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text" path="settings.defaultTab.description"></p>
+			</div>
+			<div class="ml-auto flex items-center">
+				<select settings-name="defaultTab" onchange="changeSetting(this)" class="mt-2 w-full outline-none py-2 px-4 boxshadow rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
+					<option value="agenda" path="settings.defaultTab.agenda"></option>
+					<option value="note" path="settings.defaultTab.note"></option>
+				</select>
+			</div>
+		</div>
+
+		<div>
+			<div>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.defaultOpenPath.title"></h3>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-normal select-text" path="settings.defaultOpenPath.description"></p>
 			</div>
 			<div class="ml-auto flex items-center">
 				<input settings-name="defaultOpenPath" onchange="changeSetting(this)" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">
@@ -86,12 +100,15 @@
 
 		<div>
 			<div>
-				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text">Liste des thèmes</h3>
+				<h3 class="flex place-items-center font-[Poppins] font-semibold select-text" path="settings.matieres.title"></h3>
 			</div>
 			<div class="ml-auto" settings-name="matieres"></div>
 		</div>
 
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-200 text-center">Développé par <a class="underline" onclick="electronIpc.send('showmysite')">Johan</a> • <button class="underline" onclick="electronIpc.send('open-config')">Ouvrir le fichier JSON</button> • <button class="underline" onclick="electronIpc.send('show-about')">Afficher les infos</button></p>
+		<div class="mt-2 text-sm text-gray-600 dark:text-gray-200 text-center leading-relaxed">
+			<p><lang path="settings.footer.developedBy"></lang> <a class="underline" onclick="electronIpc.send('showmysite')">Johan</a></p>
+			<p><button class="underline" onclick="electronIpc.send('open-config')" path="settings.footer.showJSON"></button> • <button class="underline" onclick="electronIpc.send('show-about')" path="settings.footer.showInfo"></button></p>
+		</div>
 	</div>
 </body>
 </html>
