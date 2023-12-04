@@ -113,7 +113,7 @@ function parseMarkdown(text){
 }
 
 // Raccourcis clavier
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keydown", async (event) => {
 	// Empêcher les raccourcis pour fermer la page
 	if((event.ctrlKey || event.metaKey) && event.key == "w") event.preventDefault()
 	if((event.ctrlKey || event.metaKey) && event.key == "q") event.preventDefault()
@@ -124,9 +124,9 @@ document.addEventListener("keydown", (event) => {
 		if(document.activeElement == document.getElementById("input_date") && document.getElementById("input_date").value){
 			event.preventDefault()
 			document.getElementById("input_content")?.focus()
-			document.getElementById("input_date").setAttribute("data-value", roundDate(parseDate(document.getElementById("input_date").value)))
+			document.getElementById("input_date").setAttribute("data-value", roundDate(await parseDate(document.getElementById("input_date").value)))
 			document.getElementById("input_date").setAttribute("formatted", "true")
-			document.getElementById("input_date").value = formatDate(parseDate(document.getElementById("input_date").value))
+			document.getElementById("input_date").value = await formatDate(await parseDate(document.getElementById("input_date").value))
 			parseAgenda(agenda)
 		}
 
@@ -184,13 +184,13 @@ document.addEventListener("keydown", (event) => {
 })
 
 // Quand on écrit une date
-if(document.getElementById("input_date")) document.getElementById("input_date").addEventListener("input", (event) => {
+if(document.getElementById("input_date")) document.getElementById("input_date").addEventListener("input", async (event) => {
 	// Si la date était déjà formatée, on la déformatte
 	if(document.getElementById("input_date").getAttribute("formatted") == "true") document.getElementById("input_date").setAttribute("formatted", "false")
 	if(document.getElementById("input_date").getAttribute("data-value")) document.getElementById("input_date").removeAttribute("data-value")
 
 	// On affiche d'autres éléments en fonction de la date
-	const date = parseDate(event.target.value)
+	const date = await parseDate(event.target.value)
 	if(date){
 		document.getElementById("input_content").style.display = ""
 		document.getElementById("input_additional").style.display = ""
@@ -202,12 +202,12 @@ if(document.getElementById("input_date")) document.getElementById("input_date").
 })
 
 // Quand on écrit le contenu d'un devoir
-if(document.getElementById("input_content") && document.getElementById("input_date")) document.getElementById("input_content").addEventListener("input", (event) => {
+if(document.getElementById("input_content") && document.getElementById("input_date")) document.getElementById("input_content").addEventListener("input", async (event) => {
 	// Si la date n'est pas formatée, on la formate
 	if(document.getElementById("input_date").getAttribute("formatted") != "true"){
-		document.getElementById("input_date").setAttribute("data-value", roundDate(parseDate(document.getElementById("input_date").value)))
+		document.getElementById("input_date").setAttribute("data-value", roundDate(await parseDate(document.getElementById("input_date").value)))
 		document.getElementById("input_date").setAttribute("formatted", "true")
-		document.getElementById("input_date").value = formatDate(parseDate(document.getElementById("input_date").value))
+		document.getElementById("input_date").value = await formatDate(await parseDate(document.getElementById("input_date").value))
 	}
 })
 
@@ -215,16 +215,19 @@ if(document.getElementById("input_content") && document.getElementById("input_da
 if(document.getElementById("input_notesearch")) document.getElementById("input_notesearch").addEventListener("input", (event) => parseNotes(notes))
 
 // Fonction pour ajouter un devoir
-function addHomework(){
+async function addHomework(){
 	// On formatte la date s'il le faut
 	if(document.getElementById("input_date").getAttribute("formatted") != "true"){
-		document.getElementById("input_date").setAttribute("data-value", roundDate(parseDate(document.getElementById("input_date").value)))
+		document.getElementById("input_date").setAttribute("data-value", roundDate(await parseDate(document.getElementById("input_date").value)))
 		document.getElementById("input_date").setAttribute("formatted", "true")
-		document.getElementById("input_date").value = formatDate(parseDate(document.getElementById("input_date").value))
+		document.getElementById("input_date").value = await formatDate(await parseDate(document.getElementById("input_date").value))
 	}
 
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// On récupère les données
-	var matiere = document.getElementById("input_matiere").value || "Aucun thème"
+	var matiere = document.getElementById("input_matiere").value || lang.placeholders.noTheme
 	var date = document.getElementById("input_date").getAttribute("data-value")
 	var content = document.getElementById("input_content").value
 	var file = document.getElementById("input_content").getAttribute("data-file")
@@ -237,7 +240,7 @@ function addHomework(){
 	document.getElementById("input_content").removeAttribute("data-file")
 
 	// On utilise le bon nom pour la matière
-	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUN THÈME", color: "#767676" }
+	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: lang.placeholders.noTheme.toUpperCase(), color: "#767676" }
 
 	// Faire une nouvelle date avec les infos de la précédente pour la rendre moins précise
 	date = roundDate(new Date(parseInt(date)))
@@ -251,14 +254,14 @@ function addHomework(){
 
 	// On envoie les données
 	var newAgenda = electronIpc.sendSync("add-homework", matiere, date, content, file)
-	parseAgenda(newAgenda)
+	await parseAgenda(newAgenda)
 	agenda = newAgenda
 }
 
 // Fonction pour ajouter une note
-function addNote(){
+async function addNote(){
 	// On récupère les données
-	var matiere = document.getElementById("input_matiere").value || "Aucun thème"
+	var matiere = document.getElementById("input_matiere").value || lang.placeholders.noTheme
 	var content = document.getElementById("input_content").value
 	var file = document.getElementById("input_content").getAttribute("data-file")
 
@@ -269,8 +272,11 @@ function addNote(){
 	document.getElementById("input_content").value = ""
 	document.getElementById("input_content").removeAttribute("data-file")
 
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// On utilise le bon nom pour la matière
-	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: "AUCUN THÈME", color: "#767676" }
+	matiere = matieres.find(m => m?.lower == matiere) || { lower: matiere, upper: lang.placeholders.noTheme.toUpperCase(), color: "#767676" }
 
 	// Dans le contenu, on enlève le fichier, et on trim
 	if(file && content) content = content.replace(`\n\n${decodeURIComponent(file)}`, "")
@@ -283,7 +289,7 @@ function addNote(){
 }
 
 // Fonction pour parser l'agenda
-function parseAgenda(agenda){
+async function parseAgenda(agenda){
 	// Si on a une date, on filtre
 	var isFiltered = false
 	if(document.getElementById("input_date")?.getAttribute("data-value")){
@@ -307,6 +313,9 @@ function parseAgenda(agenda){
 		groupedAgenda.find(group => group.date == homework.date).homeworks.push(homework)
 	}
 
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// On prépare le code HTML
 	var html = ""
 
@@ -314,10 +323,10 @@ function parseAgenda(agenda){
 	for(const group of groupedAgenda){
 		// On ajoute la date
 		html += `<div class="mt-5"><h1 class="font-bold text-base">${
-			isFiltered ? "Résultat de recherche" :
-				group.date == formatDate(new Date(), true) ? "Aujourd'hui" :
-					group.date == formatDate(new Date(Date.now() + (24 * 60 * 60 * 1000)), true) ? "Demain" :
-						formatDate(new Date(group.date), true)
+			isFiltered ? escapeHtml(lang.placeholders.searchResults) :
+				group.date == await formatDate(new Date(), true) ? escapeHtml(lang.placeholders.today) :
+					group.date == await formatDate(new Date(Date.now() + (24 * 60 * 60 * 1000)), true) ? escapeHtml(lang.placeholders.tomorrow) :
+						await formatDate(new Date(group.date), true)
 		} :</h1><div>`
 
 		// On ajoute chaque devoir
@@ -335,9 +344,9 @@ function parseAgenda(agenda){
 					<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
 						<circle cx="4" cy="4" r="4" fill="${escapeHtml(homework?.matiere?.color) || "#767676"}"/>
 					</svg>
-					${escapeHtml(homework?.matiere?.upper || homework?.matiere) || "Aucun thème"}
+					${escapeHtml(homework?.matiere?.upper || homework?.matiere || lang.placeholders.noTheme)}
 				</h3>
-				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-medium break-words select-text" style="max-width: ${`${document.body.clientWidth - 80}px`}">${parseMarkdown(escapeHtml(homework?.content) || "Aucun contenu")}</p>
+				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-medium break-words select-text" style="max-width: ${`${document.body.clientWidth - 80}px`}">${parseMarkdown(escapeHtml(homework?.content || lang.placeholders.noContent))}</p>
 			</div>
 
 			${homework?.file ? `<button onclick="electronIpc.send('open-homeworkfile', this.parentElement.getAttribute('data-id'))" class="ml-auto outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#393939] px-2 rounded-md">
@@ -367,7 +376,7 @@ function removeNote(element){ // eslint-disable-line
 }
 
 // Fonction pour parser les notes
-function parseNotes(notes){
+async function parseNotes(notes){
 	// Si on a aucune notes, on masque
 	if(!notes?.length) return document.getElementById("notes").classList.add("hidden")
 
@@ -403,6 +412,9 @@ function parseNotes(notes){
 		return b.date - a.date
 	}).slice(0, 100)
 
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// On prépare le code HTML
 	var html = ""
 
@@ -414,9 +426,9 @@ function parseNotes(notes){
 				<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
 					<circle cx="4" cy="4" r="4" fill="${escapeHtml(note?.matiere?.color) || "#767676"}"/>
 				</svg>
-				${escapeHtml(note?.matiere?.upper || note?.matiere) || "Aucun thème"}
+				${escapeHtml(note?.matiere?.upper || note?.matiere || lang.placeholders.noTheme)}
 			</h3>
-			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(highlightText(escapeHtml(note?.content), document.getElementById("input_notesearch")?.value?.split(" ") || []) || "Aucun contenu")}</p>
+			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(highlightText(escapeHtml(note?.content), document.getElementById("input_notesearch")?.value?.split(" ") || []) || escapeHtml(lang.placeholders.noContent))}</p>
 		</div>
 		<div class="flex space-x-1 justify-end mt-1 mb-3" data-id="${note?.id}">
 			${note?.file ? `<button onclick="electronIpc.send('open-notefile', this.parentElement.getAttribute('data-id'))" class="p-1 outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#292929] rounded-md">
@@ -465,11 +477,11 @@ function enableAutostart(el){ // eslint-disable-line
 	electronIpc.send("enable-autostart")
 
 	// On change le texte
-	el.parentElement.innerText = `L'application Agendapp s'ouvre en arrière plan au démarrage. Vous pouvez gérer ce comportement dans ${platform == "win32" ? "le gestionnaire des tâches" : platform == "darwin" ? "les réglages système de ce Mac" : "les paramètres de votre OS"}.`
+	el.parentElement.innerText = lang.settings.autostart.enabled[platform == "win32" ? "windows" : platform == "darwin" ? "macos" : "other"]
 }
 
 // Ajouter tous les réglages sur la page
-function addSettingsToPage(){
+async function addSettingsToPage(){
 	// Vérifier qu'on est sur les réglages
 	if(!document.getElementById("settings")) return
 
@@ -487,12 +499,12 @@ function addSettingsToPage(){
 	if(platform != "win32") document.getElementById("forceBlurEffect").remove()
 
 	// Définir les select
-	if(settings?.defaultTab) document.querySelector("[settings-name=\"defaultTab\"]").value = settings.defaultTab == "note" ? "Prise de notes" : "Agenda"
+	if(settings?.defaultTab) document.querySelector("[settings-name=\"defaultTab\"]").value = settings.defaultTab
+	if(settings?.language) document.querySelector("[settings-name=\"language\"]").value = settings.language == "fr-FR" ? "Français" : settings.language == "en-US" ? "English" : "== Improperly defined =="
 
 	// Définir les inputs
 	if(settings?.defaultOpenPath) document.querySelector("[settings-name=\"defaultOpenPath\"]").value = settings.defaultOpenPath
 
-	// Définir les matières
 	// On obtient les matières et le conteneur
 	document.querySelector("[settings-name=\"matieres\"]").innerHTML = ""
 	var matieresContainer = document.querySelector("[settings-name=\"matieres\"]")
@@ -501,17 +513,20 @@ function addSettingsToPage(){
 	// On ajoute une matière vide qui servira à rajouter un champ vide
 	listMatieres.push({ lower: "", upper: "", color: "" })
 
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// On ajoute chaque matière
 	for(const [index, matiere] of listMatieres.entries()){
 		// On ajoute la matière
 		matieresContainer.insertAdjacentHTML("beforeend", `
 		<div data-index="${index}" class="${index == 0 ? "mb-4" : "my-4"}">
 			<div class="flex items-center space-x-2 mt-2">
-				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom minimaliste">
-				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Nom en majuscule">
+				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.lowerName)}">
+				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.upperName)}">
 			</div>
-			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="Couleur au format hexadécimale">
-			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? "Ajouter" : "Mettre à jour"}</button>
+			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.hexColor)}">
+			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? escapeHtml(lang.settings.matieres.add) : escapeHtml(lang.settings.matieres.update)}</button>
 		</div>
 		${index != (settings?.matieres.length - 1) ? "<hr class=\"border-[#464646] dark:border-[#e8e8e8] border-[0.5px]\">" : ""}`)
 
@@ -538,7 +553,12 @@ function changeSetting(element){ // eslint-disable-line
 		element.innerHTML = settings[settingName] ? "<path fill=\"currentColor\" d=\"M8.167 8.167a5.833 5.833 0 0 0 0 11.666h11.666a5.833 5.833 0 1 0 0-11.666H8.167Zm11.375 8.75a2.917 2.917 0 1 1 0-5.833 2.917 2.917 0 0 1 0 5.833Z\"/>" : "<path fill=\"currentColor\" d=\"M19.833 8.167a5.833 5.833 0 1 1 0 11.666H8.167a5.833 5.833 0 1 1 0-11.666h11.666Zm-11.375 8.75a2.916 2.916 0 1 0 0-5.833 2.916 2.916 0 0 0 0 5.833Z\"/>"
 	}
 	else if(settingName == "defaultTab"){
-		settings[settingName] = element.value == "Prise de notes" ? "note" : "agenda"
+		settings[settingName] = element.value
+		electronIpc.send("config", "set", `settings.${settingName}`, settings[settingName])
+	}
+	else if(settingName == "language"){
+		// on obtient l'attribut "code" de la value
+		settings[settingName] = element.value == "Français" ? "fr-FR" : element.value == "English" ? "en-US" : null
 		electronIpc.send("config", "set", `settings.${settingName}`, settings[settingName])
 	}
 	else if(settingName == "defaultOpenPath"){
@@ -599,20 +619,24 @@ function roundDate(date){
 }
 
 // Fonction pour rendre une date JS plus propre
-function formatDate(date, upFirstLetter = false){
+async function formatDate(date, upFirstLetter = false){
+	// On attend d'avoir les traductions "lang" et la région
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+	while(!globalThis.locale) await new Promise(resolve => setTimeout(resolve, 200))
+
 	// Si c'est aujourd'hui
-	if(roundDate(date) == roundDate(new Date())) return "Aujourd'hui"
+	if(roundDate(date) == roundDate(new Date())) return lang.placeholders.today
 
 	// Sinon, on formatte
 	var options = { weekday: "long", day: "numeric", month: "long" }
 	if(date.getFullYear() != new Date().getFullYear()) options.year = "numeric"
-	const formatter = new Intl.DateTimeFormat("fr-FR", options)
+	const formatter = new Intl.DateTimeFormat(locale, options)
 	var formatted = formatter.format(date)
 	return upFirstLetter ? formatted.charAt(0).toUpperCase() + formatted.slice(1) : formatted
 }
 
 // Fonction pour changer d'onglet
-function changeTab(tab){ // eslint-disable-line
+function changeTab(tab){
 	// Vérifier qu'on est pas déjà sur l'onglet
 	const currentTab = location.pathname.split("/")[location.pathname.split("/").length - 1].replace(".html", "")
 	console.log(tab, currentTab)
@@ -623,7 +647,7 @@ function changeTab(tab){ // eslint-disable-line
 }
 
 // Fonction pour convertir une date écrite en français en date JS
-function parseDate(date){
+async function parseDate(date){
 	// On trim
 	date = date.trim()
 
@@ -632,10 +656,13 @@ function parseDate(date){
 	const currentMonth = currentDate.getMonth()
 	const currentYear = currentDate.getFullYear()
 
-	// Noms en français
-	const daysOfWeek = { "lundi": 1, "mardi": 2, "mercredi": 3, "jeudi": 4, "vendredi": 5, "samedi": 6, "dimanche": 0 }
-	const shortdaysOfWeek = { "lun": 1, "mar": 2, "mer": 3, "jeu": 4, "ven": 5, "sam": 6, "dim": 0 }
-	const monthNames = ["janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre"]
+	// On attend d'avoir les traductions "lang"
+	while(!globalThis.lang) await new Promise(resolve => setTimeout(resolve, 200))
+
+	// Noms selon la langue
+	const daysOfWeek = lang.dateParser.daysOfWeek
+	const shortdaysOfWeek = lang.dateParser.shortdaysOfWeek
+	const monthNames = lang.dateParser.monthNames
 
 	// Séparation des mots, en minuscule, et sans accents
 	const words = date.toLowerCase().replaceAll("/", " ").split(" ").map(word => word.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))
@@ -643,11 +670,11 @@ function parseDate(date){
 	// Si on a un qu'un seul mot
 	if(words.length == 1){
 		// Si c'est une date relative
-		if(words[0] == "avant-hier" || words[0] == "avant hier") return new Date(currentYear, currentMonth, currentDate.getDate() - 2)
-		if(words[0] == "hier") return new Date(currentYear, currentMonth, currentDate.getDate() - 1)
-		if(words[0] == "aujourd'hui" || words[0] == "aujourdhui") return new Date(currentYear, currentMonth, currentDate.getDate())
-		if(words[0] == "demain") return new Date(currentYear, currentMonth, currentDate.getDate() + 1)
-		if(words[0] == "après-demain" || words[0] == "apres demain") return new Date(currentYear, currentMonth, currentDate.getDate() + 2)
+		if(words[0] == "avant-hier" || words[0] == "avant hier" || words[0] == "before yesterday") return new Date(currentYear, currentMonth, currentDate.getDate() - 2)
+		if(words[0] == "hier" || words[0] == "yesterday") return new Date(currentYear, currentMonth, currentDate.getDate() - 1)
+		if(words[0] == "aujourd'hui" || words[0] == "aujourdhui" || words[0] == "today") return new Date(currentYear, currentMonth, currentDate.getDate())
+		if(words[0] == "demain" || words[0] == "tomorrow") return new Date(currentYear, currentMonth, currentDate.getDate() + 1)
+		if(words[0] == "après-demain" || words[0] == "apres demain" || words[0] == "after tomorrow") return new Date(currentYear, currentMonth, currentDate.getDate() + 2)
 
 		// On obtient le jour en nombre (si ça en est un)
 		const day = parseInt(words[0])
