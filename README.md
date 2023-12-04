@@ -1,3 +1,5 @@
+###### English version [here](https://github.com/johan-perso/agendapp/blob/main/README-en.md).
+
 # Agendapp
 
 Un des meilleurs logiciels pour simplifier la gestion de votre agenda scolaire, et pour faciliter la prise de notes en cours.  
@@ -59,7 +61,7 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 * `15 septembre 2023` → renvoie le 15 septembre 2023
 * `15/09/2023` → renvoie le 15 septembre 2023
 
-> **Note :** le format de date est en français, et ne peut pas être changé pour l'instant. Les jours de la semaine peuvent être abrégés en utilisant les trois premières lettres du jour (par exemple `lun` pour lundi). La saisie n'est pas sensible à la casse.
+> **Note :** Les jours de la semaine peuvent être abrégés en utilisant les trois premières lettres du jour (par exemple `lun` pour lundi). La saisie n'est pas sensible à la casse.
 
 ## Raccourcis claviers
 
@@ -82,6 +84,7 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 ### Hors de l'application
 
 * `Ctrl/Cmd + Shift + A` → ouvre l'application (ou la fermer si elle est déjà ouverte)
+> Vous pouvez ajouter des raccourcis pour ouvrir l'application dans le fichier config.json
 
 ## Licence
 
