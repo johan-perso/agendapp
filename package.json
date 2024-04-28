@@ -12,6 +12,7 @@
 		"build-exe-x64": "electron-packager . --platform=win32 --arch=x64 --icon=src/icons/icon.ico --out=release-builds --overwrite",
 		"build-app-x64": "electron-packager . --platform=darwin --arch=x64 --icon=src/icons/icon.icns --out=release-builds --overwrite",
 		"build-app-arm64": "electron-packager . --platform=darwin --arch=arm64 --icon=src/icons/icon.icns --out=release-builds --overwrite",
+		"electron-windows-store": "electron-windows-store",
 		"build": "node build.js"
 	},
 	"author": "Johan Stickman",
@@ -31,18 +32,5 @@
 		"mica-electron": "^1.5.3",
 		"node-fetch": "^2.6.7",
 		"os-locale": "5.0.0"
-	},
-	"build": {
-		"copyright": "Copyright © 2024 Johan Stickman",
-		"win": {
-			"target": "appx"
-		},
-		"appx": {
-			"identityName": "28115JohanStickman.Agendapp-Agendascolaire",
-			"publisher": "CN=4B7C716A-26DD-4533-B881-FD85EDCA9936",
-			"publisherDisplayName": "Bassine Corp",
-			"displayName": "Agendapp",
-			"applicationId": "BassineCorp.Agendapp"
-		}
 	}
 }

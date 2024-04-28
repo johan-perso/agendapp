@@ -133,5 +133,5 @@ dist
 release-builds/
 package-lock.json
 pnpm-lock.yaml
-*/.DS_Store
+**/.DS_Store
 .DS_Store
