@@ -20,6 +20,7 @@
 		"archiver": "^6.0.1",
 		"electron": "^20.0.0",
 		"electron-packager": "^17.1.2",
+		"electron-windows-store": "^2.1.0",
 		"eslint": "^8.48.0",
 		"tailwindcss": "^3.3.1"
 	},
@@ -30,5 +31,18 @@
 		"mica-electron": "^1.5.3",
 		"node-fetch": "^2.6.7",
 		"os-locale": "5.0.0"
+	},
+	"build": {
+		"copyright": "Copyright © 2024 Johan Stickman",
+		"win": {
+			"target": "appx"
+		},
+		"appx": {
+			"identityName": "28115JohanStickman.Agendapp-Agendascolaire",
+			"publisher": "CN=4B7C716A-26DD-4533-B881-FD85EDCA9936",
+			"publisherDisplayName": "Bassine Corp",
+			"displayName": "Agendapp",
+			"applicationId": "BassineCorp.Agendapp"
+		}
 	}
 }
