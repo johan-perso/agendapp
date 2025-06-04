@@ -11,13 +11,13 @@ Agenda                     |  Adding elements          |  Note taking
 
 ## Installation
 
-## Windows 10/11
+### Windows 10/11
 
 * Download the file `agendapp-*-win32-x64.zip` in the [Releases](https://github.com/johan-perso/agendapp/releases/latest) section of this repo.
 * Uncompress the ZIP file then execute the file named `Agendapp.exe` to start the application.
 * You can create a shortcut to `Agendapp.exe`, to launch it more easily.
 
-## macOS
+### macOS
 
 * Search and download the file `agendapp-*-macos-*.dmg` (depending on your architecture, Intel = x64 ; Sillicon = arm64) in the [Releases](https://github.com/johan-perso/agendapp/releases/latest) of this repo.
 * Open the DMG file and drop the `Agendapp.app` in your Applications folder.
@@ -85,4 +85,4 @@ The date format used by Agendapp when adding or searching for a homework is made
 
 ## License
 
-MIT © [Johan](https://johanstick.fr)
+MIT © [Johan](https://johanstick.fr/). [Support this project](https://johanstick.fr/#donate) if you want to help me 💙

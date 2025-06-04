@@ -11,7 +11,7 @@ Agenda                     |  Ajout de devoirs         |  Prise de notes
 
 ## Installation
 
-## Windows 10/11
+### Windows 10/11
 
 * Téléchargez le fichier `agendapp-*-win32-x64.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
 * Décompressez le fichier ZIP puis exécutez le fichier `Agendapp.exe` pour démarrer l'application.
@@ -19,7 +19,7 @@ Agenda                     |  Ajout de devoirs         |  Prise de notes
 
 Un installateur sera disponible dans une version future.
 
-## macOS
+### macOS
 
 * Cherchez et téléchargez le fichier `agendapp-*-macos-*.dmg` (en fonction de votre architecture, Intel = x64 ; Sillicon = arm64) dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
 * Ouvrez le fichier DMG puis déplacez l'application `Agendapp.app` dans le dossier Applications.
@@ -88,4 +88,4 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 
 ## Licence
 
-MIT © [Johan](https://johanstick.fr)
+MIT © [Johan](https://johanstick.fr). [Soutenez ce projet](https://johanstick.fr/#donate) si vous souhaitez m'aider 💙
