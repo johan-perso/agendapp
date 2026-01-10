@@ -30,12 +30,12 @@
 	},
 	"navbar": {
 		"agenda": "Agenda",
-		"note": "Note taking"
+		"note": "Note Taking"
 	},
 	"placeholders": {
 		"date": "Begin by typing a date...",
-		"homework": "Type here the content of whatever you want",
-		"note": "Type here some text to start taking note...",
+		"homework": "Type here the content of whatever you want to remember...",
+		"note": "Type here some text to start taking notes...",
 		"noTheme": "No theme",
 		"noContent": "No content",
 		"today": "Today",
@@ -71,7 +71,7 @@
 			"title": "Default tab",
 			"description": "The tab that will open by default when the application starts.",
 			"agenda": "Agenda",
-			"note": "Note taking"
+			"note": "Note Taking"
 		},
 		"defaultOpenPath": {
 			"title": "Default path",

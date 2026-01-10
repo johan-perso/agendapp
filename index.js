@@ -37,12 +37,19 @@ if(!store.has("settings")) store.set("settings", {
 // Paramètres
 var settings = store.get("settings")
 var language = settings.language
+var locale
 
 // Obtenir la langue à utiliser
-const { osLocaleSync } = require("os-locale")
-var locale = osLocaleSync()
-if(!language) language = locale
-console.log(`Language: ${language}`)
+if(!language) {
+	const osLocale = require("os-locale")
+	var locale = osLocale.sync()
+	if(!language) language = locale
+	console.log(`Detected language: ${language} (from OS locale)`)
+} else {
+	locale = language
+	console.log(`Using configured language: ${language}`)
+}
+console.log(`Locale: ${locale}`)
 
 // Obtenir le fichier de langue
 var lang

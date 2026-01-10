@@ -32,6 +32,6 @@
 		"electron-traywindow-positioner": "1.2.1",
 		"mica-electron": "1.5.16",
 		"node-fetch": "^2.6.7",
-		"os-locale": "6.0.2"
+		"os-locale": "5.0.0"
 	}
 }
