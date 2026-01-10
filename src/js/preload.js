@@ -17,8 +17,15 @@ window.addEventListener("focus", () => {
 	window.postMessage("focus")
 })
 
+window.addEventListener("DOMContentLoaded", () => {
+	applyTranslationsInDom()
+	if(process.platform === "darwin") {
+		document.documentElement.classList.add("macos")
+	}
+})
+
 // On remplace toutes les balises <lang> par un texte traduit
-window.addEventListener("load", () => {
+function applyTranslationsInDom(){
 	// Demander le fichier de traduction
 	const lang = ipcRenderer.sendSync("get-lang")
 	contextBridge.exposeInMainWorld("lang", lang)
@@ -66,4 +73,4 @@ window.addEventListener("load", () => {
 		// Remplacer le placeholder
 		element.setAttribute("placeholder", translated || "⚠️⚠️ PATH NOT FOUND ⚠️⚠️")
 	})
-})
+}

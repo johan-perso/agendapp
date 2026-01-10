@@ -1,6 +1,7 @@
 // Importer des librairies
 const { app, ipcMain, dialog, Menu, Tray, shell, globalShortcut, Notification } = require("electron")
 const positioner = require("electron-traywindow-positioner")
+const liquidGlass = require("electron-liquid-glass")
 const fetch = require("node-fetch")
 const { join } = require("path")
 
@@ -229,6 +230,10 @@ async function main(){
 		show: false,
 	})
 	window.loadFile(join(__dirname, `src/${settings.defaultTab == "note" ? "note.html" : "agenda.html"}`))
+
+	if(platform() == "darwin") window.webContents.once("ready-to-show", () => {
+		liquidGlass.addView(window.getNativeWindowHandle())
+	})
 
 	// On définit la variable pour savoir si la fenêtre est prête
 	var ready = false

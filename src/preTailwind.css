@@ -26,6 +26,15 @@ button, a {
 	--scrollBar-thumb-hover: #777777; /* (j'ai fait 0 efforts sur les couleurs de la scrollbar HAHAHA j'ai utilisé Copilot ça passe mm si ça rend pas trop bien) */
 	--boxShadowColor: rgba(255, 255, 255, 0.20);
 	--background: rgb(246, 246, 246, 0.835);
+	--primary-container: rgb(252, 252, 252, 0.7);
+	--primary-container-heavier: rgb(252, 252, 252, 0.7);
+	--primary-hover: rgba(244, 244, 244, 0.9)
+}
+:root.macos {
+	--background: rgb(246, 246, 246, 0.35);
+	--primary-container: rgb(252, 252, 252, 0.4);
+	--primary-container-heavier: rgb(252, 252, 252, 0.4);
+	--primary-hover: rgba(244, 244, 244, 0.5)
 }
 /* Thème sombre */
 @media (prefers-color-scheme: dark) {
@@ -37,6 +46,15 @@ button, a {
 		--scrollBar-thumb-hover: #5e5e5e;
 		--boxShadowColor: rgba(0, 0, 0, 0.20);
 		--background: rgb(41, 41, 41, 0.885);
+		--primary-container: rgb(54, 54, 54, 0.7);
+		--primary-container-heavier: rgb(52, 52, 52, 0.7);
+		--primary-hover: rgba(57, 57, 57, 0.9)
+	}
+	:root.macos {
+		--background: rgb(41, 41, 41, 0.3);
+		--primary-container: rgb(54, 54, 54, 0.3);
+		--primary-container-heavier: rgb(52, 52, 52, 0.3);
+		--primary-hover: rgba(57, 57, 57, 0.5)
 	}
 }
 
@@ -54,17 +72,22 @@ p, button, h1, h2, h3, a, option, input, textarea {
 	text-shadow: 1px 1px 1px var(--boxShadowColor);
 }
 
-/* Couleurs avec transparence */
-.bg-fcfcfc {
-	background: rgb(252, 252, 252, 0.7);
+/* Couleurs principales avec transparence */
+.primary-container {
+	background: var(--primary-container);
+}
+.primary-container-heavier {
+	background: var(--primary-container-heavier);
 }
 @media (prefers-color-scheme: dark) {
-	.dark-bg-343434 {
-		background: rgb(52, 52, 52, 0.7);
+	.dark-primary-container-heavier {
+		background: var(--primary-container-heavier) !important;
 	}
-	.dark-bg-363636 {
-		background: rgb(54, 54, 54, 0.7);
-	}
+}
+
+/* Couleur au hover */
+.primary-hover:hover {
+	background: var(--primary-hover) !important;
 }
 
 /* Mettre la bonne couleur pour les options des selects */

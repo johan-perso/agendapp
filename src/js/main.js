@@ -332,7 +332,7 @@ async function parseAgenda(agenda){
 		// On ajoute chaque devoir
 		if(group.homeworks) for(const homework of group.homeworks){
 			html += `<div class="homework flex mt-3" data-id="${homework?.id}">
-			<button onclick="checkCheckbox(this)" class="outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#393939] px-2 rounded-md">
+			<button onclick="checkCheckbox(this)" class="outline-none duration-150 primary-hover px-2 rounded-md">
 				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" class="fill-current text-black dark:text-white">
 					<path fill="currentColor" d="M3.2.8h9.6a2.4 2.4 0 0 1 2.4 2.4v9.6a2.4 2.4 0 0 1-2.4 2.4H3.2a2.4 2.4 0 0 1-2.4-2.4V3.2A2.4 2.4 0 0 1 3.2.8Zm0 1.6a.8.8 0 0 0-.8.8v9.6a.8.8 0 0 0 .8.8h9.6a.8.8 0 0 0 .8-.8V3.2a.8.8 0 0 0-.8-.8H3.2Z"/>
 					<path fill="currentColor" d="M3.6 1A2.6 2.6 0 0 0 1 3.6v9.2a2.6 2.6 0 0 0 2.6 2.6h9.2a2.6 2.6 0 0 0 2.6-2.6V3.6A2.6 2.6 0 0 0 12.8 1H3.6Zm8.024 5.424-4 4a.6.6 0 0 1-.848 0L5.173 8.821a.6.6 0 1 1 .848-.848L7.2 9.15l3.576-3.576a.6.6 0 1 1 .848.849Z" class="hidden checkboxChecked"/>
@@ -349,7 +349,7 @@ async function parseAgenda(agenda){
 				<p class="font-[Poppins] dark:text-[#EFEFEF] text-sm font-medium break-words select-text" style="max-width: ${`${document.body.clientWidth - 80}px`}">${parseMarkdown(escapeHtml(homework?.content || lang.placeholders.noContent))}</p>
 			</div>
 
-			${homework?.file ? `<button onclick="electronIpc.send('open-homeworkfile', this.parentElement.getAttribute('data-id'))" class="ml-auto outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#393939] px-2 rounded-md">
+			${homework?.file ? `<button onclick="electronIpc.send('open-homeworkfile', this.parentElement.getAttribute('data-id'))" class="ml-auto outline-none duration-150 primary-hover px-2 rounded-md">
 				<svg class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="none">
 					<path d="M4.16668 3.16667C3.90146 3.16667 3.64711 3.27202 3.45957 3.45956C3.27203 3.6471 3.16668 3.90145 3.16668 4.16667V11.8333C3.16668 12.0985 3.27203 12.3529 3.45957 12.5404C3.64711 12.728 3.90146 12.8333 4.16668 12.8333H11.8333C12.0986 12.8333 12.3529 12.728 12.5404 12.5404C12.728 12.3529 12.8333 12.0985 12.8333 11.8333V9.16667C12.8333 8.98986 12.9036 8.82029 13.0286 8.69526C13.1536 8.57024 13.3232 8.5 13.5 8.5C13.6768 8.5 13.8464 8.57024 13.9714 8.69526C14.0964 8.82029 14.1667 8.98986 14.1667 9.16667V11.8333C14.1667 12.4522 13.9208 13.0457 13.4833 13.4832C13.0457 13.9208 12.4522 14.1667 11.8333 14.1667H4.16668C3.54784 14.1667 2.95435 13.9208 2.51676 13.4832C2.07918 13.0457 1.83334 12.4522 1.83334 11.8333V4.16667C1.83334 3.54783 2.07918 2.95434 2.51676 2.51675C2.95435 2.07917 3.54784 1.83333 4.16668 1.83333H6.83334C7.01015 1.83333 7.17972 1.90357 7.30475 2.0286C7.42977 2.15362 7.50001 2.32319 7.50001 2.5C7.50001 2.67681 7.42977 2.84638 7.30475 2.9714C7.17972 3.09643 7.01015 3.16667 6.83334 3.16667H4.16668ZM8.50001 2.5C8.50001 2.32319 8.57025 2.15362 8.69527 2.0286C8.8203 1.90357 8.98987 1.83333 9.16668 1.83333H13.5C13.6768 1.83333 13.8464 1.90357 13.9714 2.0286C14.0964 2.15362 14.1667 2.32319 14.1667 2.5V6.83333C14.1667 7.01014 14.0964 7.17971 13.9714 7.30474C13.8464 7.42976 13.6768 7.5 13.5 7.5C13.3232 7.5 13.1536 7.42976 13.0286 7.30474C12.9036 7.17971 12.8333 7.01014 12.8333 6.83333V4.10933L9.63801 7.30467C9.57651 7.36834 9.50295 7.41913 9.42161 7.45407C9.34028 7.48901 9.2528 7.5074 9.16428 7.50817C9.07576 7.50894 8.98797 7.49207 8.90604 7.45855C8.82411 7.42503 8.74968 7.37552 8.68708 7.31293C8.62449 7.25033 8.57498 7.1759 8.54146 7.09397C8.50794 7.01204 8.49107 6.92425 8.49184 6.83573C8.49261 6.74721 8.511 6.65973 8.54594 6.5784C8.58088 6.49706 8.63167 6.4235 8.69534 6.362L11.8907 3.16667H9.16668C8.98987 3.16667 8.8203 3.09643 8.69527 2.9714C8.57025 2.84638 8.50001 2.67681 8.50001 2.5Z" fill="currentColor"/>
 				</svg>
@@ -420,7 +420,7 @@ async function parseNotes(notes){
 
 	// On ajoute chaque note
 	for(const note of notes){
-		html += `<div class="mt-2 px-3 py-1 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
+		html += `<div class="mt-2 px-3 py-1 rounded-md boxshadow w-full primary-container border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF] text-sm font-[Poppins] font-normal">
 		<div class="mt-3">
 			<h3 class="flex place-items-center font-[Poppins] font-normal select-text">
 				<svg class="mr-2" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 8 8" fill="none">
@@ -431,12 +431,12 @@ async function parseNotes(notes){
 			<p class="mt-1 select-text whitespace-pre-wrap break-words" style="word-break: break-word;">${parseMarkdown(highlightText(escapeHtml(note?.content), document.getElementById("input_notesearch")?.value?.split(" ") || []) || escapeHtml(lang.placeholders.noContent))}</p>
 		</div>
 		<div class="flex space-x-1 justify-end mt-1 mb-3" data-id="${note?.id}">
-			${note?.file ? `<button onclick="electronIpc.send('open-notefile', this.parentElement.getAttribute('data-id'))" class="p-1 outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#292929] rounded-md">
+			${note?.file ? `<button onclick="electronIpc.send('open-notefile', this.parentElement.getAttribute('data-id'))" class="p-1 outline-none duration-150 primary-hover rounded-md">
 				<svg class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 16 16" fill="none">
 					<path d="M4.16668 3.16667C3.90146 3.16667 3.64711 3.27202 3.45957 3.45956C3.27203 3.6471 3.16668 3.90145 3.16668 4.16667V11.8333C3.16668 12.0985 3.27203 12.3529 3.45957 12.5404C3.64711 12.728 3.90146 12.8333 4.16668 12.8333H11.8333C12.0986 12.8333 12.3529 12.728 12.5404 12.5404C12.728 12.3529 12.8333 12.0985 12.8333 11.8333V9.16667C12.8333 8.98986 12.9036 8.82029 13.0286 8.69526C13.1536 8.57024 13.3232 8.5 13.5 8.5C13.6768 8.5 13.8464 8.57024 13.9714 8.69526C14.0964 8.82029 14.1667 8.98986 14.1667 9.16667V11.8333C14.1667 12.4522 13.9208 13.0457 13.4833 13.4832C13.0457 13.9208 12.4522 14.1667 11.8333 14.1667H4.16668C3.54784 14.1667 2.95435 13.9208 2.51676 13.4832C2.07918 13.0457 1.83334 12.4522 1.83334 11.8333V4.16667C1.83334 3.54783 2.07918 2.95434 2.51676 2.51675C2.95435 2.07917 3.54784 1.83333 4.16668 1.83333H6.83334C7.01015 1.83333 7.17972 1.90357 7.30475 2.0286C7.42977 2.15362 7.50001 2.32319 7.50001 2.5C7.50001 2.67681 7.42977 2.84638 7.30475 2.9714C7.17972 3.09643 7.01015 3.16667 6.83334 3.16667H4.16668ZM8.50001 2.5C8.50001 2.32319 8.57025 2.15362 8.69527 2.0286C8.8203 1.90357 8.98987 1.83333 9.16668 1.83333H13.5C13.6768 1.83333 13.8464 1.90357 13.9714 2.0286C14.0964 2.15362 14.1667 2.32319 14.1667 2.5V6.83333C14.1667 7.01014 14.0964 7.17971 13.9714 7.30474C13.8464 7.42976 13.6768 7.5 13.5 7.5C13.3232 7.5 13.1536 7.42976 13.0286 7.30474C12.9036 7.17971 12.8333 7.01014 12.8333 6.83333V4.10933L9.63801 7.30467C9.57651 7.36834 9.50295 7.41913 9.42161 7.45407C9.34028 7.48901 9.2528 7.5074 9.16428 7.50817C9.07576 7.50894 8.98797 7.49207 8.90604 7.45855C8.82411 7.42503 8.74968 7.37552 8.68708 7.31293C8.62449 7.25033 8.57498 7.1759 8.54146 7.09397C8.50794 7.01204 8.49107 6.92425 8.49184 6.83573C8.49261 6.74721 8.511 6.65973 8.54594 6.5784C8.58088 6.49706 8.63167 6.4235 8.69534 6.362L11.8907 3.16667H9.16668C8.98987 3.16667 8.8203 3.09643 8.69527 2.9714C8.57025 2.84638 8.50001 2.67681 8.50001 2.5Z" fill="currentColor"/>
 				</svg>
 			</button>` : ""}
-			<button onclick="removeNote(this)" class="p-1 outline-none duration-150 hover:bg-[#e8e8e8] dark:hover:bg-[#292929] rounded-md">
+			<button onclick="removeNote(this)" class="p-1 outline-none duration-150 primary-hover rounded-md">
 				<svg class="fill-current dark:text-[#EFEFEF]" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none">
 					<path d="M21.5 6a1 1 0 0 1-.883.993L20.5 7h-.845l-1.231 12.52A2.75 2.75 0 0 1 15.687 22H8.313a2.75 2.75 0 0 1-2.737-2.48L4.345 7H3.5a1 1 0 0 1 0-2h5a3.5 3.5 0 1 1 7 0h5a1 1 0 0 1 1 1Zm-7.25 3.25a.75.75 0 0 0-.743.648L13.5 10v7l.007.102a.75.75 0 0 0 1.486 0L15 17v-7l-.007-.102a.75.75 0 0 0-.743-.648Zm-4.5 0a.75.75 0 0 0-.743.648L9 10v7l.007.102a.75.75 0 0 0 1.486 0L10.5 17v-7l-.007-.102a.75.75 0 0 0-.743-.648ZM12 3.5A1.5 1.5 0 0 0 10.5 5h3A1.5 1.5 0 0 0 12 3.5Z" fill="currentColor"/>
 				</svg>
@@ -522,11 +522,11 @@ async function addSettingsToPage(){
 		matieresContainer.insertAdjacentHTML("beforeend", `
 		<div data-index="${index}" class="${index == 0 ? "mb-4" : "my-4"}">
 			<div class="flex items-center space-x-2 mt-2">
-				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.lowerName)}">
-				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.upperName)}">
+				<input id="matiereslist_lower" type="text" class="outline-none p-2 rounded-md boxshadow w-full primary-container border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.lowerName)}">
+				<input id="matiereslist_upper" type="text" class="outline-none p-2 rounded-md boxshadow w-full primary-container border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.upperName)}">
 			</div>
-			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.hexColor)}">
-			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md bg-fcfcfc dark-bg-363636 border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? escapeHtml(lang.settings.matieres.add) : escapeHtml(lang.settings.matieres.update)}</button>
+			<input id="matiereslist_color" type="text" class="outline-none mt-2 p-2 rounded-md boxshadow w-full primary-container border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]" placeholder="${escapeHtml(lang.settings.matieres.hexColor)}">
+			<button settings-name="matieres" onclick="changeSetting(this)" class="mt-2 w-full py-2 px-4 rounded-md primary-container border-[#e8e8e8] dark:border-[#464646] border-[0.5px] dark:text-[#EFEFEF]">${!matiere.upper && !matiere.lower ? escapeHtml(lang.settings.matieres.add) : escapeHtml(lang.settings.matieres.update)}</button>
 		</div>
 		${index != (settings?.matieres.length - 1) ? "<hr class=\"border-[#464646] dark:border-[#e8e8e8] border-[0.5px]\">" : ""}`)
 
