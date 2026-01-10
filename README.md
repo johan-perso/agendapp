@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/1b49a754-5c38-4cda-8735-58b2282451cc
 
 * Téléchargez le fichier `agendapp-*-win32-x64.zip` dans la section [Releases](https://github.com/johan-perso/agendapp/releases/latest) de ce dépôt.
 * Décompressez le fichier ZIP puis exécutez le fichier `Agendapp.exe` pour démarrer l'application.
-* Vous pouvez créer un raccourci vers `Agendapp.exe` pour lancer l'application plus facilement.
+* Vous pouvez créer un raccourci vers `Agendapp.exe` dans `%APPDATA%\Microsoft\Windows\Start Menu\Programs` pour lancer l'application depuis le menu Démarrer.
 
 ### macOS
 
@@ -87,6 +87,5 @@ Le format de date utilisé par Agendapp lors de l'ajout ou de la recherche d'un 
 > Vous pouvez ajouter des raccourcis pour ouvrir l'application dans le fichier config.json
 
 ## Licence
-
 
 MIT © [Johan](https://johanstick.fr). [Soutenez ce projet](https://johanstick.fr/#donate) si vous souhaitez m'aider 💙

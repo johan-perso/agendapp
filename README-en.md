@@ -17,7 +17,7 @@ https://github.com/user-attachments/assets/1b49a754-5c38-4cda-8735-58b2282451cc
 
 * Download the file `agendapp-*-win32-x64.zip` in the [Releases](https://github.com/johan-perso/agendapp/releases/latest) section of this repo.
 * Uncompress the ZIP file then execute the file named `Agendapp.exe` to start the application.
-* You can create a shortcut to `Agendapp.exe`, to launch it more easily.
+* You can create a shortcut to `Agendapp.exe` in `%APPDATA%\Microsoft\Windows\Start Menu\Programs`, to launch it from the Start Menu.
 
 ### macOS
 
@@ -86,6 +86,5 @@ The date format used by Agendapp when adding or searching for a homework is made
 > You can add shortcuts to open the application in the config.json file
 
 ## License
-
 
 MIT © [Johan](https://johanstick.fr/). [Support this project](https://johanstick.fr/#donate) if you want to help me 💙
