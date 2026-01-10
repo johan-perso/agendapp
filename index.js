@@ -40,8 +40,8 @@ var settings = store.get("settings")
 var language = settings.language
 
 // Obtenir la langue à utiliser
-const osLocale = require("os-locale")
-var locale = osLocale.sync()
+const { osLocaleSync } = require("os-locale")
+var locale = osLocaleSync()
 if(!language) language = locale
 console.log(`Language: ${language}`)
 
@@ -70,7 +70,7 @@ else BrowserWindow = require("electron").BrowserWindow
 
 // Menu contextuel
 const contextMenu = require("electron-context-menu")
-contextMenu({
+contextMenu.default({
 	// Désactiver des options par défaut
 	showSearchWithGoogle: false,
 	showLearnSpelling: false,

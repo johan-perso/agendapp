@@ -19,18 +19,18 @@
 	"license": "MIT",
 	"devDependencies": {
 		"archiver": "^6.0.1",
-		"electron": "^20.0.0",
+		"electron": "39.2.7",
 		"electron-packager": "^17.1.2",
 		"electron-windows-store": "^2.1.0",
 		"eslint": "^8.48.0",
 		"tailwindcss": "^3.3.1"
 	},
 	"dependencies": {
-		"electron-context-menu": "^3.6.1",
+		"electron-context-menu": "4.1.1",
 		"electron-store": "^8.1.0",
-		"electron-traywindow-positioner": "^1.2.0",
-		"mica-electron": "^1.5.3",
+		"electron-traywindow-positioner": "1.2.1",
+		"mica-electron": "1.5.16",
 		"node-fetch": "^2.6.7",
-		"os-locale": "5.0.0"
+		"os-locale": "6.0.2"
 	}
 }
