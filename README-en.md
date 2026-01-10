@@ -2,12 +2,14 @@
 
 # Agendapp
 
-Surely one of the best software to simplify the management of your school agenda, and to facilitate note taking in class.
-It offers a practical and efficient alternative to paper agendas, classic calendars, note-taking software like Word or OneNote and task management software like Todoist or Trello.
+Surely one of the best software tools to simplify the management of your school agenda, and to facilitate note-taking in class.
+It offers a practical and efficient alternative to paper agendas, classic calendars, note-taking software like Word or OneNote, and task management software like Todoist or Trello.
 
 Agenda                     |  Adding elements          |  Note taking
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Agenda](https://github.com/johan-perso/agendapp/assets/41506568/12826aae-18d3-473d-ae95-39656e8171cd)  |  ![Adding elements](https://github.com/johan-perso/agendapp/assets/41506568/12b19067-32b3-421d-ac3b-2b4c15f6e410) | ![Note taking](https://github.com/johan-perso/agendapp/assets/41506568/a69931a3-7fc1-4683-a7ed-491658ec322e)
+
+https://github.com/user-attachments/assets/1b49a754-5c38-4cda-8735-58b2282451cc
 
 ## Installation
 
@@ -84,5 +86,6 @@ The date format used by Agendapp when adding or searching for a homework is made
 > You can add shortcuts to open the application in the config.json file
 
 ## License
+
 
 MIT © [Johan](https://johanstick.fr/). [Support this project](https://johanstick.fr/#donate) if you want to help me 💙
