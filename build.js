@@ -3,7 +3,7 @@ const fs = require("fs")
 const path = require("path")
 const archiver = require("archiver")
 const version = require("./package.json").version
-const appx = require("./package.json").appx
+// const appx = require("./package.json").appx
 
 async function main(){
 	// Si le dossier release-builds n'existe pas, on le crée, sinon on le vide

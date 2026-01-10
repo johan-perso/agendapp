@@ -680,10 +680,6 @@ video {
   border-width: 0.5px;
 }
 
-.border-0 {
-  border-width: 0px;
-}
-
 .border-\[\#464646\] {
   --tw-border-opacity: 1;
   border-color: rgb(70 70 70 / var(--tw-border-opacity));
@@ -807,41 +803,6 @@ video {
   color: rgb(75 85 99 / var(--tw-text-opacity));
 }
 
-.text-orange-500 {
-  --tw-text-opacity: 1;
-  color: rgb(249 115 22 / var(--tw-text-opacity));
-}
-
-.text-orange-400 {
-  --tw-text-opacity: 1;
-  color: rgb(251 146 60 / var(--tw-text-opacity));
-}
-
-.text-red-400 {
-  --tw-text-opacity: 1;
-  color: rgb(248 113 113 / var(--tw-text-opacity));
-}
-
-.text-yellow-400 {
-  --tw-text-opacity: 1;
-  color: rgb(250 204 21 / var(--tw-text-opacity));
-}
-
-.text-orange-300 {
-  --tw-text-opacity: 1;
-  color: rgb(253 186 116 / var(--tw-text-opacity));
-}
-
-.text-orange-200 {
-  --tw-text-opacity: 1;
-  color: rgb(254 215 170 / var(--tw-text-opacity));
-}
-
-.text-red-200 {
-  --tw-text-opacity: 1;
-  color: rgb(254 202 202 / var(--tw-text-opacity));
-}
-
 .text-red-300 {
   --tw-text-opacity: 1;
   color: rgb(252 165 165 / var(--tw-text-opacity));
@@ -854,32 +815,6 @@ video {
 .outline-none {
   outline: 2px solid transparent;
   outline-offset: 2px;
-}
-
-.outline {
-  outline-style: solid;
-}
-
-.outline-1 {
-  outline-width: 1px;
-}
-
-.outline-4 {
-  outline-width: 4px;
-}
-
-.outline-red-100 {
-  outline-color: #fee2e2;
-}
-
-.outline-\[\#e8e8e8\] {
-  outline-color: #e8e8e8;
-}
-
-.ring-0 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(0px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
 .filter {
@@ -1202,22 +1137,8 @@ textarea::-webkit-scrollbar-thumb:hover {
 		url('fonts/poppins-v20-latin-700.ttf') format('truetype');
 }
 
-.hover\:bg-\[\#e8e8e8\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(232 232 232 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-\[\#f4f4f4\]:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(244 244 244 / var(--tw-bg-opacity));
-}
-
 .focus\:h-\[10rem\]:focus {
   height: 10rem;
-}
-
-.focus\:outline-1:focus {
-  outline-width: 1px;
 }
 
 .focus\:outline-2:focus {
@@ -1257,28 +1178,6 @@ textarea::-webkit-scrollbar-thumb:hover {
   .dark\:text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
-  }
-
-  .dark\:outline-\[\#464646\] {
-    outline-color: #464646;
-  }
-
-  .dark\:outline-black {
-    outline-color: #000;
-  }
-
-  .dark\:hover\:bg-\[\#292929\]:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(41 41 41 / var(--tw-bg-opacity));
-  }
-
-  .dark\:hover\:bg-\[\#393939\]:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(57 57 57 / var(--tw-bg-opacity));
-  }
-
-  .focus\:dark\:outline-black:focus {
-    outline-color: #000;
   }
 
   .focus\:dark\:outline-\[\#464646\]:focus {
