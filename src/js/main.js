@@ -322,7 +322,7 @@ async function parseAgenda(agenda){
 	// On ajoute chaque devoir
 	for(const group of groupedAgenda){
 		// On ajoute la date
-		html += `<div class="mt-5"><h1 class="font-bold text-base">${
+		html += `<div class="mt-5"><h1 class="font-bold text-base ${group.date < Date.now() ? "text-red-300" : ""}">${
 			isFiltered ? escapeHtml(lang.placeholders.searchResults) :
 				group.date == await formatDate(new Date(), true) ? escapeHtml(lang.placeholders.today) :
 					group.date == await formatDate(new Date(Date.now() + (24 * 60 * 60 * 1000)), true) ? escapeHtml(lang.placeholders.tomorrow) :
