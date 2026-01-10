@@ -249,6 +249,8 @@ async function main(){
 	var hasAppShowedOnce = false
 	window.on("show", async () => {
 		console.log("Window showed.")
+		window.webContents.executeJavaScript("document.activeElement?.blur()")
+
 		// Si l'application n'a jamais été affichée
 		if(!hasAppShowedOnce){
 			// On met l'effet flou en arrière plan (Windows)

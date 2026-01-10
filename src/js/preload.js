@@ -22,6 +22,9 @@ window.addEventListener("DOMContentLoaded", () => {
 	if(process.platform === "darwin") {
 		document.documentElement.classList.add("macos")
 	}
+
+	var currentPageId = location.pathname.replace(".html", "").replace(/^\/+/, "").split("/").pop()
+	document.querySelector(`[page-id='${currentPageId}']`).setAttribute("disabled", "true")
 })
 
 // On remplace toutes les balises <lang> par un texte traduit
