@@ -19,7 +19,7 @@
 	"license": "MIT",
 	"devDependencies": {
 		"archiver": "^6.0.1",
-		"electron": "39.2.7",
+		"electron": "39.8.6",
 		"electron-packager": "^17.1.2",
 		"electron-windows-store": "^2.1.0",
 		"eslint": "^8.48.0",
